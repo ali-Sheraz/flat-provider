@@ -1,0 +1,180 @@
+<div *ngIf="url == 'pages'">
+</div>
+<div class="sidebar" id="sidebar" *ngIf="url != 'pages' && url != 'career'">
+  <div class="sidebar-inner slimscroll-wrap" slimScroll [options]="opts">
+    <div id="sidebar-menu" class="sidebar-menu">
+      <ul *ngIf="homeView">
+
+        <li [ngClass]="url === 'welcome'? 'active' : 'null'">
+          <a routerLink="/welcome"><img src="assets/img/hello.png" height="20" alt=""><span>Welcome </span> </a>
+        </li>
+    
+        <li  [ngClass]="url === 'users'? 'active' : 'null'">
+          <a routerLink="/users"><img src="assets/img/menu-users-white.png" height="20" alt=""><span>{{users}} </span><span *ngIf="usersCompleteList" class="dot"></span></a>
+        </li>
+        <li  class="submenu">
+          <a class="list-unstyled" [ngClass]="url === 'work_orders'? 'subdrop' : 'null'" (click)="toggleSubmenu($event)"><img src="assets/img/menu-work-orders-white.png" height="20" alt="">
+            <span> {{work_orders}}</span> <span class="menu-arrow"></span></a>
+          <ul class="list-unstyled" [ngClass]="url === 'work_orders'? 'submenu-block' : 'dsply-none'">
+            <li  ><a routerLink="/work_orders/submit_work_order"
+                [ngClass]="url2 === '/work_orders/submit_work_order'? 'active' : 'null'">{{adwork_orders}}</a></li>
+            <li><a routerLink="/work_orders/my_pending_work_orders"
+                [ngClass]="url2 === '/work_orders/my_pending_work_orders'? 'active' : 'null'">{{pwork_orders}}</a>
+            </li>
+            <li ><a routerLink="/work_orders/all_work_orders"
+                [ngClass]="url2 === '/work_orders/all_work_orders'? 'active' : 'null'">{{awork_orders}}</a></li>
+          </ul>
+        </li>
+
+        <li class="submenu">
+          <a class="list-unstyled" [ngClass]="url === 'properties' ? 'subdrop' : ''" (click)="toggleSubmenu($event)">
+            <img src="assets/img/menu-properties-white.png" height="20" alt="">
+            <span>{{properties}}</span>
+            <span class="menu-arrow"></span>
+          </a>
+          <ul class="list-unstyled" [ngClass]="url === 'properties' ? 'submenu-block' : 'dsply-none'">
+            <li><a routerLink="/properties" [ngClass]="url2 === 'properties' ? 'active' : ''">{{properties}}</a></li>
+            <li><a routerLink="/properties/uploaded-documents" [ngClass]="url2 === 'uploaded-documents' ? 'active' : ''">Documents</a></li>
+          </ul>
+        </li>
+    
+
+        <li   class="submenu">
+          <a class="list-unstyled" [ngClass]="url === 'plts'? 'subdrop' : 'null'" (click)="toggleSubmenu($event)"><img src="assets/img/under-renovation-white.png" height="20" alt="">
+            <span>PLTS Defects</span> <span class="menu-arrow"></span></a>
+          <ul class="list-unstyled" [ngClass]="url === 'plts'? 'submenu-block' : 'dsply-none'">
+                <li ><a routerLink="/add-defect"
+                  [ngClass]="url2 === '/plts/add'? 'active' : 'null'">Add Defect</a></li>
+                  <li  ><a routerLink="/my-pending-defects"
+                    [ngClass]="url2 === '/plts/my-pending-defects'? 'active' : 'null'">My Pending Defects</a></li>
+                  <li ><a routerLink="/all-defects"
+                    [ngClass]="url2 === '/plts/add'? 'active' : 'null'">All Defects</a></li>
+          </ul>
+        </li>
+
+
+        <li class="submenu" >
+          <a class="list-unstyled" (click)="toggleSubmenu($event)" [ngClass]="url === 'bookings'? 'subdrop' : 'null'"><img src="assets/img/menu-bookings-white.png" height="20" alt="">
+
+            <span>
+              {{abookings}}</span> <span class="menu-arrow"></span></a>
+          <ul class="list-unstyled" [ngClass]="url === 'bookings'? 'submenu-block' : 'dsply-none'">
+            <li ><a routerLink="/bookings/venues" [ngClass]="url2 === '/bookings/venues'? 'active' : 'null'">{{vbookings}}</a>
+            </li>
+            <li ><a routerLink="/bookings/venuebookings"
+                [ngClass]="url2 === '/bookings/venuebookings'? 'active' : 'null'">{{bookings}}</a></li>
+          </ul>
+        </li>
+
+         <li >
+          <a routerLink="/settings" (click)="toggleSubmenu($event)" ><img src="assets/img/settings-white.png" height="20" alt=""> <span> {{settings}} </span></a>
+        </li> 
+       
+      </ul>
+
+
+      <ul *ngIf='settingsView' class="sidebar-menu">
+        <li>
+          <a routerLink="/welcome"><i class="la la-home"></i> <span>{{bth}}</span></a>
+        </li>
+        <li class="menu-title">{{settings}}</li>
+
+        <li class="submenu">
+          <a class="list-unstyled" [ngClass]="url === 'settings/generals'? 'subdrop' : 'null'" (click)="toggleSubmenu($event)" ><img src="assets/img/settings-precincts-projects-condod.png" height="20" alt="">
+            <span>
+              {{pp}}</span> <span class="menu-arrow"></span></a>
+          <ul class="list-unstyled" [ngClass]="url === 'settings/generals'? 'submenu-block' : 'dsply-none'">
+            <li><a routerLink="/settings/generals/precincts"
+                [ngClass]="url2 === '/settings/generals/precincts'? 'active' : 'null'">{{pp}}</a>
+            </li>
+            <li><a routerLink="/settings/generals/sub_precincts"
+                [ngClass]="url2 === '/settings/generals/sub_precincts'? 'active' : 'null'">{{spp}}</a></li>
+          </ul>
+        </li>
+
+        <li class="submenu">
+          <a class="list-unstyled" [ngClass]="url === 'settings/LED'? 'subdrop' : 'null'" (click)="toggleSubmenu($event)" ><img src="assets/img/settings-led-white.png" height="20" alt="">
+            <span>
+              {{led}}</span> <span class="menu-arrow"></span></a>
+          <ul class="list-unstyled" [ngClass]="url === 'settings/LED'? 'submenu-block' : 'dsply-none'">
+            <li><a routerLink="/settings/LED/type-of-unit"
+                [ngClass]="url2 === '/settings/LED/type-of-unit'? 'active' : 'null'">{{tou}}</a></li>
+            <li><a routerLink="/settings/LED/location"
+                [ngClass]="url2 === '/settings/LED/location'? 'active' : 'null'">{{location_re}}</a></li>
+            <li><a routerLink="/settings/LED/element"
+                [ngClass]="url2 === '/settings/LED/element'? 'active' : 'null'">{{element}}</a></li>
+            <li><a routerLink="/settings/LED/defect"
+                [ngClass]="url2 === '/settings/LED/defect'? 'active' : 'null'">{{defect}}</a></li>
+            <li><a routerLink="/settings/LED/competency"
+                [ngClass]="url2 === '/settings/LED/competency'? 'active' : 'null'">{{competency}}</a></li>
+            <li><a routerLink="/settings/LED/days-to-execute"
+                [ngClass]="url2 === '/settings/LED/days-to-execute'? 'active' : 'null'">{{dte}}</a></li>
+            <li><a routerLink="/settings/LED/priority"
+                [ngClass]="url2 === '/settings/LED/priority'? 'active' : 'null'">{{priority}}</a></li>
+            <li><a routerLink="/settings/LED/next-action"
+                [ngClass]="url2 === '/settings/LED/next-action'? 'active' : 'null'">{{na}}</a></li>
+            <li><a routerLink="/settings/LED/cause"
+                [ngClass]="url2 === '/settings/LED/cause'? 'active' : 'null'">{{cause}}</a></li>
+          </ul>
+        </li>
+
+
+        <li class="submenu">
+          <a routerLink="/settings/module_permissions" class="list-unstyled" [ngClass]="url === 'settings/module_permissions'? 'subdrop' : 'null'"><img src="assets/img/settings-permission-white.png" height="20" alt=""> <span>
+              {{module_permission}}</span></a>
+        </li>
+
+
+        <li class="submenu">
+          <a class="list-unstyled" [ngClass]="url === 'settings/templateUpload'? 'subdrop' : 'null'" (click)="toggleSubmenu($event)" ><img src="assets/img/settings-upload.png" height="20" alt=""> <span>
+              {{tu}}</span> <span class="menu-arrow"></span></a>
+          <ul class="list-unstyled" [ngClass]="url === 'settings/templateUpload'? 'submenu-block' : 'dsply-none'">
+            <li><a routerLink="/settings/templateUpload/properties"
+                [ngClass]="url2 === '/settings/templateUpload/properties'? 'active' : 'null'">{{properties}}</a></li>
+            <li><a routerLink="/settings/templateUpload/Residents"
+                [ngClass]="url2 === '/settings/templateUpload/Residents'? 'active' : 'null'">{{rtu}}</a></li>
+           <li><a routerLink="/settings/templateUpload/workorders"
+                  [ngClass]="url2 === '/settings/templateUpload/workorders'? 'active' : 'null'">Work Orders</a></li>
+                  <li><a routerLink="/settings/templateUpload/userlevels"
+                    [ngClass]="url2 === '/settings/templateUpload/userlevels'? 'active' : 'null'">User Levels</a></li>
+                    <li><a routerLink="/settings/templateUpload/actions"
+                      [ngClass]="url2 === '/settings/templateUpload/actions'? 'active' : 'null'">Actions</a></li>
+                      <li><a routerLink="/settings/templateUpload/workflows"
+                        [ngClass]="url2 === '/settings/templateUpload/workflows'? 'active' : 'null'">WorkFlows</a></li>
+          </ul>
+        </li>
+
+
+        <li class="submenu">
+          <a class="list-unstyled" [ngClass]="url === 'settings'? 'subdrop' : 'null'" (click)="toggleSubmenu($event)" ><img src="assets/img/leasing-tenancy-white.png" height="20" alt=""> <span>
+              Workflows</span> <span class="menu-arrow"></span></a>
+          <ul class="list-unstyled" [ngClass]="url === 'settings'? 'submenu-block' : 'dsply-none'">
+                <li><a routerLink="/settings/task"
+                  [ngClass]="url2 === '/settings/task'? 'active' : 'null'">All Actions</a></li>
+            <li><a routerLink="/settings/actions"
+                [ngClass]="url2 === '/settings/actions'? 'active' : 'null'">All Workflows</a></li>
+          </ul>
+        </li>
+
+
+        <li class="submenu">
+          <a class="list-unstyled" [ngClass]="url === 'settings'? 'subdrop' : 'null'" (click)="toggleSubmenu($event)" ><img src="assets/img/visitors_4-white.png" height="20" alt=""> <span>
+              User Levels</span> <span class="menu-arrow"></span></a>
+          <ul class="list-unstyled" [ngClass]="url === 'settings'? 'submenu-block' : 'dsply-none'">
+            <li><a routerLink="/settings/user-level"
+                [ngClass]="url2 === '/settings/user-level'? 'active' : 'null'">All User Levels</a></li>
+          </ul>
+        </li>
+
+
+        <li [ngClass]="url === 'settings/languages'? 'active' : 'null'">
+          <a routerLink="/settings/languages"><img src="assets/img/settings-languages.png" height="20" alt=""><span> {{alanguages}} </span> </a>
+        </li>
+
+        
+      </ul> 
+          
+    </div>
+    <div class="cover-bar"></div>
+  </div>
+</div>

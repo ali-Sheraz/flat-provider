@@ -1,0 +1,321 @@
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+
+<div class="page-wrapper">
+  <div class="content container-fluid">
+    <div class="row">
+
+
+      <div class="col-xs-8">
+        <h4 class="page-title">Residents Documents</h4>
+        <p>Total: {{totalList}}</p>
+      </div>
+      <div class="row" *ngIf="scan">
+        <div class="col-xs-12">
+          <p class="alert alert-success">
+            <strong>Scan!</strong> {{scanResults}}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-body" style="margin-top: 20px;">
+      <form #searchForm="ngForm" novalidate>
+        <div class="row filter-row">
+
+          <div class="col-sm-3 col-md-2 col-xs-6">
+            <div class="form-group form-focus select-focus">
+              <label class="control-label">Client</label>
+              <select class="select floating form-control" [(ngModel)]="searchT.property_developer"
+                name="property_developer" #property_developer="ngModel" required>
+                <option value=""></option>
+                <option value="Downtown">Downtown</option>
+                <option value="Uptown">Uptown</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-sm-3 col-md-2 col-xs-6">
+            <div class="form-group form-focus select-focus">
+              <label class="control-label">House Owner</label>
+              <input type="text" class="form-control floating" [(ngModel)]="searchT.house_owner" name="house_owner"
+                #house_owner="ngModel" />
+            </div>
+          </div>
+
+
+          <div class="col-sm-3 col-md-2 col-xs-6">
+            <div class="form-group form-focus select-focus">
+              <label class="control-label">Precinct</label>
+              <input type="text" class="form-control floating" [(ngModel)]="searchT.precinct" name="precinct"
+                #precinct="ngModel" />
+            </div>
+          </div>
+
+          <div class="col-sm-3 col-md-2 col-xs-6">
+            <div class="form-group form-focus select-focus">
+              <label class="control-label">Street</label>
+              <input type="text" class="form-control floating" [(ngModel)]="searchT.street" name="street"
+                #street="ngModel" />
+            </div>
+          </div>
+
+          <div class="col-sm-3 col-md-2 col-xs-6">
+            <div class="form-group form-focus select-focus">
+              <label class="control-label">House Number</label>
+              <input type="text" class="form-control floating" [(ngModel)]="searchT.house_number" name="house_number"
+                #house_number="ngModel" />
+            </div>
+          </div>
+
+          <div class="wrapper">
+            <button class="btn btn-success pull-right" style="margin-bottom:10px;">Clear Search</button>
+            <button class="btn btn-success pull-right" style="display:inline-block;margin-right:4px;"
+              type="submit">Search</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div id="WOlist" class="row">
+      <div class="col-md-12">
+        <div class="table-responsive table-responsive-inherit">
+          <table class="table table-striped custom-table">
+            <thead>
+              <tr>
+                <th style="width: 15%" class="text-center">
+                  Creation Date
+                </th>
+                <th style="width: 15%">
+                  ID
+                </th>
+                <th style="width: 15%">
+                  Uploaded By
+                </th>
+                <th style="width: 15%">
+                  Client
+                </th>
+                <th style="width: 15%">
+                  House Owner
+                </th>
+                <th style="width: 15%">
+                  Precinct
+                </th>
+                <th style="width: 15%">
+                  Street
+                </th>
+                <th style="width: 15%">
+                  House Number
+                </th>
+                <th style="width: 15%">
+                  Type Of Documents
+                </th>
+                <th style="width: 15%">
+                  Status
+                </th>
+                <th style="width: 5%">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of rows">
+                <td>{{item.creation_date}}</td>
+                <td><a href="javascript:" (click)="onView(item)">{{item.id}}</a></td>
+                <td>{{item.created_by}}</td>
+                <td>{{item.property_developer}}</td>
+                <td>{{item.house_owner}}</td>
+                <td>{{item.precinct}}</td>
+                <td>{{item.street}}</td>
+                <td>{{item.house_number}}</td>
+                <td>{{item.type_of_documents}}</td>
+                <td>{{item.status}}</td>
+
+                <td class="text-right">
+                  <div class="dropdown">
+                    <a href="javascript:" class="action-icon dropdown-toggle" data-toggle="dropdown"
+                      aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                    <ul class="dropdown-menu pull-right">
+                      <li><a href="javascript:" title="Edit"><i class="fa fa-pencil m-r-5"></i>
+                          Edit</a></li>
+                      <li><a href="javascript:" title="Delete"><i class="fa fa-trash-o m-r-5"></i>
+                          Delete</a></li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="12">
+                </td>
+              </tr>
+
+            </tfoot>
+
+          </table>
+
+
+        </div>
+      </div>
+    </div>
+
+
+    <div id="view_modal" class="modal custom-modal fade" role="dialog" data-backdrop="static">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-xs-12">
+
+                  <h4 class="page-title"><a data-dismiss="modal" style="cursor:pointer;">Resident Documents</a> /
+                    {{viewP.id}}
+                    <div style="text-align:right; width:100%;">
+                      <button class="btn btn-primary" printSectionId="print_view_all_work_order" ngxPrint><i
+                          class="fa fa-print"></i> Print </button>
+                    </div>
+                  </h4>
+                </div>
+              </div>
+              <div id="print_view_all_work_order">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="panel">
+                      <div class="panel-body">
+                        <div class="project-title">
+                          <h3 class="panel-title m-b-15"><b>{{viewP.house_owner}}</b></h3>
+                        </div>
+                        <p>{{viewP.description}}</p>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                      <div class="panel">
+                        <div class="panel-body">
+                          <h3 class="panel-title m-b-15"><b>Details</b></h3>
+                          <table class="table table-striped table-border">
+                            <tbody>
+                              <tr>
+                                <td>Creation Date:</td>
+                                <td class="text-right">{{viewP.creation_date}}</td>
+                              </tr>
+                              <tr>
+                                <td>Uploaded By:</td>
+                                <td class="text-right">{{viewP.created_by}}</td>
+                              </tr>
+                              <tr>
+                                <td>ID:</td>
+                                <td class="text-right">{{viewP.id}}</td>
+                              </tr>
+                              <tr>
+                                <td>Client:</td>
+                                <td class="text-right">{{viewP.property_developer}}</td>
+                              </tr>
+                              <tr>
+                                <td>House Owner:</td>
+                                <td class="text-right">{{viewP.house_owner}}</td>
+                              </tr>
+                              <tr>
+                                <td>Precinct:</td>
+                                <td class="text-right">{{viewP.precinct}}</td>
+                              </tr>
+                              <tr>
+                                <td>Street:</td>
+                                <td class="text-right">{{viewP.street}}</td>
+                              </tr>
+                              <tr>
+                                <td>House Number:</td>
+                                <td class="text-right">{{viewP.house_number}}</td>
+                              </tr>
+                              <tr>
+                                <td>Status:</td>
+                                <td class="text-right">{{viewP.status}}</td>
+                              </tr>
+                              <tr>
+                                <td>Description:</td>
+                                <td class="text-right">{{viewP.description}}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="panel">
+                      <div class="panel-body">
+
+                        <div class="panel">
+                          <div class="panel-body">
+                            <h5 class="panel-title m-b-20">Uploaded Images ({{totalPics}})</h5>
+                            <div class="row">
+
+                              <div class="col-md-3 col-sm-6" >
+                                <div class="thumbnail">
+                                  <div class="thumb">
+                                    <!-- <pinch-zoom>
+                                      <img src="{{viewPictures}}" wheel=true  />
+                                    </pinch-zoom> -->
+                                  </div>
+
+                                </div>
+                              </div>
+
+
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="panel">
+                          <div class="panel-body">
+                            <h5 class="panel-title m-b-20">Uploaded Files ({{totalFiles}})</h5>
+                            <ul class="files-list">
+
+                              <li *ngFor="let viewFiles of viewFiles">
+                                <div class="files-cont">
+                                  <div class="file-type">
+                                    <span class="files-icon"><i class="fa fa-file-pdf-o"></i></span>
+                                  </div>
+                                  <div class="files-info">
+                                    <span class="file-name text-ellipsis"><a href="{{viewFiles}}"
+                                        target="_blank">{{viewFiles}}</a></span>
+                                    <span class="file-author"><a href="javascript:">{{viewP.created_by}} </a></span>
+                                    <span class="file-date">{{viewP.created_date}}</span>
+                                  </div>
+                                  <ul class="files-action">
+                                    <li class="dropdown">
+                                      <a href="javascript:" class="dropdown-toggle btn btn-default btn-xs"
+                                        data-toggle="dropdown" aria-expanded="false"><i
+                                          class="fa fa-ellipsis-h"></i></a>
+                                      <ul class="dropdown-menu">
+                                        <li><a href="{{viewFiles}}">Download</a></li>
+
+                                      </ul>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </li>
+
+                            </ul>
+                          </div>
+                        </div>
+
+                      </div>
+
+
+                    </div>
+                  </div>
+
+
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,608 @@
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+
+<div class="page-wrapper">
+  <div class="content container-fluid">
+    <div class="row">
+      <div class="col-xs-8">
+        <h4 class="modal-title">Edit Work Order</h4>
+      </div>
+      <div class="row" *ngIf="showSuccessMsg">
+        <div class="col-xs-12">
+          <p class="alert alert-success">
+            <strong>Success!</strong> {{TicketSubmitted}}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row m-t-20">
+      <div class="col-md-12">
+        <form #editForm="ngForm" (ngSubmit)="updateTicket(editForm)" novalidate>
+          <div class="row">
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Created By<span class="text-danger m-l-5">*</span></label>
+                <input class="form-control" readonly type="text" [(ngModel)]="editT.created_by" name="created_by"
+                  #created_by="ngModel" required>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Work Order Id<span class="text-danger m-l-5">*</span></label>
+                <input class="form-control" readonly type="text" [(ngModel)]="editT.id" name="id" #id="ngModel"
+                  required>
+              </div>
+            </div>
+
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>House Number<span class="text-danger m-l-5">*</span></label>
+                <select class="select form-control" [(ngModel)]="editT.house_number" name="house_number"
+                  #house_number="ngModel" required>
+                  <option *ngFor="let propertiesHouseNumberList of propertiesHouseNumberList">
+                    {{propertiesHouseNumberList}}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Street<span class="text-danger m-l-5">*</span></label>
+                <select class="select form-control" [(ngModel)]="editT.street" name="street" #street="ngModel" required>
+                  <option *ngFor="let propertiesStreetsList of propertiesStreetsList">
+                    {{propertiesStreetsList}}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Work Order Subject<span class="text-danger m-l-5">*</span></label>
+                <select class="select form-control" [(ngModel)]="editT.subject" name="subject" #subject="ngModel"
+                  required>
+                  <option value="Back gate">Back gate</option>
+                  <option value="Chainlink">Chainlink</option>
+                  <option value="Cracks">Cracks</option>
+                  <option value="Door">Door</option>
+                  <option value="Electrical">Electrical</option>
+                  <option value="Floortrap">Floortrap</option>
+                  <option value="General maintenance">General maintenance</option>
+                  <option value="Grating">Grating</option>
+                  <option value="INI Concept">INI Concept</option>
+                  <option value="Inspection">Inspection</option>
+                  <option value="Interlocking">Interlocking</option>
+                  <option value="Floor Cement">Floor Cement</option>
+                  <option value="Floor Tiles">Floor Tiles</option>
+                  <option value="Floor Laminated">Floor Laminated</option>
+                  <option value="Leakage">Leakage</option>
+                  <option value="Letter box">Letter box</option>
+                  <option value="Lock">Lock</option>
+                  <option value="Paint job">Paint job</option>
+                  <option value="Perimeter wall">Perimeter wall</option>
+                  <option value="Plumbing">Plumbing</option>
+                  <option value="Roof">Roof</option>
+                  <option value="Rusty spots">Rusty spots</option>
+                  <option value="Smelly">Smelly</option>
+                  <option value="Soil">Soil</option>
+                  <option value="Tap installation">Tap installation</option>
+                  <option value="TNB">TNB</option>
+                  <option value="Toilet bowl">Toilet bowl</option>
+                  <option value="Wall plaster">Wall plaster</option>
+                  <option value="Wall tiles">Wall tiles</option>
+                  <option value="Waterproofing">Waterproofing</option>
+                  <option value="Window">Window</option>
+                  <option value="Others">Others</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Floor<span class="text-danger m-l-5">*</span></label>
+                <select class="select form-control" [(ngModel)]="editT.floor" name="floor" #floor="ngModel" required>
+                  <option value="Ground floor">Ground floor</option>
+                  <option value="1st Floor">1st floor</option>
+                  <option value="2nd floor">2nd floor</option>
+                  <option value="3rd floor">3rd floor</option>
+                  <option value="Basement">Basement</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Days to Execute<span class="text-danger m-l-5">*</span></label>
+                <select class="select form-control" [(ngModel)]="editT.days_to_execute" name="days_to_execute"
+                  #days_to_execute="ngModel" required>
+                  <option value="1">1</option>
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="21">21</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Location<span class="text-danger m-l-5">*</span></label>
+                <select class="select form-control" [(ngModel)]="editT.location" name="location" #location="ngModel"
+                  required>
+                  <option value="Shop Lot">Shop Lot</option>
+                  <option value="Restaurant">Restaurant</option>
+                  <option value="Office">Office</option>
+                  <option value="Pests">Pests</option>
+                  <option value="Attic">Attic</option>
+                  <option value="Back of unit">Back of unit</option>
+                  <option value="Balcony">Balcony</option>
+                  <option value="Bathroom">Bathroom</option>
+                  <option value="Bedroom 01">Bedroom 01</option>
+                  <option value="Bedroom 02">Bedroom 02</option>
+                  <option value="Bedroom 03">Bedroom 03</option>
+                  <option value="Carport">Carport</option>
+                  <option value="Conneting bathroom">Conneting bathroom</option>
+                  <option value="Dining hall">Dining hall</option>
+                  <option value="Elevator">Elevator</option>
+                  <option value="Front of unit">Front of unit</option>
+                  <option value="Garden">Garden</option>
+                  <option value="Kitchen">Kitchen</option>
+                  <option value="Landing / family hall">Landing / family hall</option>
+                  <option value="Living room">Living room</option>
+                  <option value="Master bathroom">Master bathroom</option>
+                  <option value="Master bedroom">Master bedroom</option>
+                  <option value="Pantry">Pantry</option>
+                  <option value="Parking lot">Parking lot</option>
+                  <option value="Perimeter wall">Perimeter wall</option>
+                  <option value="Roof">Roof</option>
+                  <option value="Security systems">Security systems</option>
+                  <option value="Side of unit">Side of unit</option>
+                  <option value="Staircase">Staircase</option>
+                  <option value="Storage room">Storage room</option>
+                  <option value="Trash area">Trash area</option>
+                  <option value="Wet kitchen">Wet kitchen</option>
+                  <option value="Complete Unit">Complete Unit</option>
+                  <option value="Location not listed">Location not listed</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Priority<span class="text-danger m-l-5">*</span></label>
+                <select class="select form-control" [(ngModel)]="editT.priority" name="priority" #priority="ngModel"
+                  required>
+                  <option value="Urgent">Urgent</option>
+                  <option value="High">High</option>
+                  <option value="Medium">Medium</option>
+                  <option value="Low">Low</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Element<span class="text-danger m-l-5">*</span></label>
+                <select class="select form-control" [(ngModel)]="editT.element" name="element" #element="ngModel"
+                  required>
+                  <option value="Airconditioning">Airconditioning</option>
+                  <option value="Alarm">Alarm</option>
+                  <option value="Autogate">Autogate</option>
+                  <option value="Basin">Basin</option>
+                  <option value="Bath tub">Bath tub</option>
+                  <option value="Ceiling">Ceiling</option>
+                  <option value="Distribution Board (DB)">Distribution Board (DB)</option>
+                  <option value="Door (frame)">Door (frame)</option>
+                  <option value="Door (internal)">Door (internal)</option>
+                  <option value="Door (knob)">Door (knob)</option>
+                  <option value="Door (outer)">Door (outer)</option>
+                  <option value="Door (shower)">Door (shower)</option>
+                  <option value="Door (sliding)">Door (sliding)</option>
+                  <option value="Doorbell">Doorbell</option>
+                  <option value="Down water drain pipe">Down water drain pipe</option>
+                  <option value="Drain">Drain</option>
+                  <option value="Earth pods">Earth pods</option>
+                  <option value="Electrical (black-out)">Electrical (black-out)</option>
+                  <option value="Electrical (wiring)">Electrical (wiring)</option>
+                  <option value="Elevator">Elevator</option>
+                  <option value="Fan">Fan</option>
+                  <option value="Fan point">Fan point</option>
+                  <option value="Fascia board">Fascia board</option>
+                  <option value="Fence">Fence</option>
+                  <option value="Fibre optics">Fibre optics</option>
+                  <option value="Floor (concrete)">Floor (concrete)</option>
+                  <option value="Floor (stone wash)">Floor (stone wash)</option>
+                  <option value="Floor (tiles)">Floor (tiles)</option>
+                  <option value="Floor (skirting tiles)">Floor (skirting tiles)</option>
+                  <option value="Floor (wood)">Floor (wood)</option>
+                  <option value="Floor trap">Floor trap</option>
+                  <option value="Gate (back)">Gate (back)</option>
+                  <option value="Gate (main)">Gate (main)</option>
+                  <option value="Glass wall">Glass wall</option>
+                  <option value="Grating">Grating</option>
+                  <option value="Handrail">Handrail</option>
+                  <option value="Intercom">Intercom</option>
+                  <option value="Interlocking / tar road">Interlocking / tar road</option>
+                  <option value="Kitchen cabinet">Kitchen cabinet</option>
+                  <option value="Kitchen table top">Kitchen table top</option>
+                  <option value="Letterbox">Letterbox</option>
+                  <option value="Lighting point">Lighting point</option>
+                  <option value="Mirror">Mirror</option>
+                  <option value="Overflow pipe">Overflow pipe</option>
+                  <option value="Pests">Pests</option>
+                  <option value="Pillars (carport)">Pillars (carport)</option>
+                  <option value="Pillars (gate)">Pillars (gate)</option>
+                  <option value="Roll-up shutter (electric)">Roll-up shutter (electric)</option>
+                  <option value="Roll-up shutter (manual)">Roll-up shutter (manual)</option>
+                  <option value="Roof (flashing)">Roof (flashing)</option>
+                  <option value="Roof (flat)">Roof (flat)</option>
+                  <option value="Roof (tiles)">Roof (tiles)</option>
+                  <option value="Roof duct">Roof duct</option>
+                  <option value="Septic tank">Septic tank</option>
+                  <option value="Sewage (manhole)">Sewage (manhole)</option>
+                  <option value="Shower head">Shower head</option>
+                  <option value="Sinky">Sinky</option>
+                  <option value="SMATV Socket">SMATV Socket</option>
+                  <option value="Soap holder">Soap holder</option>
+                  <option value="Socket (electric)">Socket (electric)</option>
+                  <option value="Socket (airconditioning)">Socket (airconditioning)</option>
+                  <option value="Soil">Soil</option>
+                  <option value="Solar panel">Solar panel</option>
+                  <option value="Stopcock">Stopcock</option>
+                  <option value="Stopcock (basin)">Stopcock (basin)</option>
+                  <option value="Stopcock (main)">Stopcock (main)</option>
+                  <option value="Stopcock (shower)">Stopcock (shower)</option>
+                  <option value="Street lights">Street lights</option>
+                  <option value="Switch (electric)">Switch (electric)</option>
+                  <option value="Tanky">Tanky</option>
+                  <option value="Tanky (floater)">Tanky (floater)</option>
+                  <option value="Tap">Tap</option>
+                  <option value="Tap (basin)">Tap (basin)</option>
+                  <option value="Tap (garden)">Tap (garden)</option>
+                  <option value="Tap (kitchen)">Tap (kitchen)</option>
+                  <option value="Tap (Sanitary)">Tap (Sanitary)</option>
+                  <option value="Tap (shower)">Tap (shower)</option>
+                  <option value="Tap (sinky)">Tap (sinky)</option>
+                  <option value="Tap (wall)">Tap (wall)</option>
+                  <option value="Tap (washing machine)">Tap (washing machine)</option>
+                  <option value="Telephone cable socket">Telephone cable socket</option>
+                  <option value="Toilet roll holder">Toilet roll holder</option>
+                  <option value="Trees / bushes">Trees / bushes</option>
+                  <option value="Ventilation system">Ventilation system</option>
+                  <option value="Wall (inner)">Wall (inner)</option>
+                  <option value="Wall (outer)">Wall (outer)</option>
+                  <option value="Wall (tiles)">Wall (tiles)</option>
+                  <option value="Water closet">Water closet</option>
+                  <option value="Water closet (cistern)">Water closet (cistern)</option>
+                  <option value="Water heater">Water heater</option>
+                  <option value="Water heater socket">Water heater socket</option>
+                  <option value="Water heater switch">Water heater switch</option>
+                  <option value="Water meter">Water meter</option>
+                  <option value="Water piping">Water piping</option>
+                  <option value="Water pump">Water pump</option>
+                  <option value="Water tank">Water tank</option>
+                  <option value="Window (glass)">Window (glass)</option>
+                  <option value="Window (frame)">Window (frame)</option>
+                  <option value="Complete Unit">Complete Unit</option>
+                  <option value="Element not listed">Element not listed</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Costs</label>
+                <input class="form-control" type="text" [(ngModel)]="editT.costs" name="costs" #costs="ngModel">
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Defect<span class="text-danger m-l-5">*</span></label>
+                <select class="select form-control" [(ngModel)]="editT.defect" name="defect" #defect="ngModel" required>
+                  <option value="3 phase">3 phase</option>
+                  <option value="Broken">Broken</option>
+                  <option value="Can't switch off">Can't switch off</option>
+                  <option value="Can't switch on">Can't switch on</option>
+                  <option value="Can not close">Can not close</option>
+                  <option value="Can not open">Can not open</option>
+                  <option value="Chipped">Chipped</option>
+                  <option value="Clogged">Clogged</option>
+                  <option value="Collapsed">Collapsed</option>
+                  <option value="Crack (hairline)">Crack (hairline)</option>
+                  <option value="Cracked">Cracked</option>
+                  <option value="Damaged">Damaged</option>
+                  <option value="Dirty">Dirty</option>
+                  <option value="Does not work">Does not work</option>
+                  <option value="Hollow">Hollow</option>
+                  <option value="Housekeeping">Housekeeping</option>
+                  <option value="Inspection">Inspection</option>
+                  <option value="Leaking">Leaking</option>
+                  <option value="Leakage">Leakage</option>
+                  <option value="Loose">Loose</option>
+                  <option value="Makes noise">Makes noise</option>
+                  <option value="Moisture / wet">Moisture / wet</option>
+                  <option value="Molded">Molded</option>
+                  <option value="Needs filling">Needs filling</option>
+                  <option value="Not level">Not level</option>
+                  <option value="Not painted">Not painted</option>
+                  <option value="Not painted (inner)">Not painted (inner)</option>
+                  <option value="Not painted (outer)">Not painted (outer)</option>
+                  <option value="Not painted smoothly">Not painted smoothly</option>
+                  <option value="Paint Scratched">Paint Scratched</option>
+                  <option value="Paint smudge">Paint smudge</option>
+                  <option value="Paint stain">Paint stain</option>
+                  <option value="Parts missing">Parts missing</option>
+                  <option value="Plastering not smooth">Plastering not smooth</option>
+                  <option value="Plastering rough">Plastering rough</option>
+                  <option value="Poor finishing">Poor finishing</option>
+                  <option value="Rendering">Rendering</option>
+                  <option value="Rotting">Rotting</option>
+                  <option value="Rusted">Rusted</option>
+                  <option value="Rusty spots">Rusty spots</option>
+                  <option value="Sagged in / displaced">Sagged in / displaced</option>
+                  <option value="Scratched">Scratched</option>
+                  <option value="Silicon damaged/missing">Silicon damaged/missing</option>
+                  <option value="Smells bad">Smells bad</option>
+                  <option value="Smudged">Smudged</option>
+                  <option value="Stopped">Stopped</option>
+                  <option value="Stuck">Stuck</option>
+                  <option value="Swollen / Bulged">Swollen / Bulged</option>
+                  <option value="Too long">Too long</option>
+                  <option value="Touch up paint">Touch up paint</option>
+                  <option value="Uneven">Uneven</option>
+                  <option value="Water marks">Water marks</option>
+                  <option value="Water ponding">Water ponding</option>
+                  <option value="Water pressure low">Water pressure low</option>
+                  <option value="Waterproofing">Waterproofing</option>
+                  <option value="Wet / Moisturous">Wet / Moisturous</option>
+                  <option value="Wiring problem">Wiring problem</option>
+                  <option value="Defect not listed">Defect not listed</option>
+                </select>
+              </div>
+            </div>
+
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Invoice</label>
+                <input class="form-control" type="text" [(ngModel)]="editT.invoice" name="invoice" #invoice="ngModel">
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Cause<span class="text-danger m-l-5">*</span></label>
+                <select class="select form-control" [(ngModel)]="editT.cause" name="cause" #cause="ngModel" required>
+                  <option value="Unfinished work">Unfinished work</option>
+                  <option value="Poor workmanship">Poor workmanship</option>
+                  <option value="Incorrect installation">Incorrect installation</option>
+                  <option value="Structual">Structual</option>
+                  <option value="Repeated case">Repeated case</option>
+                  <option value="Weather related">Weather related</option>
+                  <option value="Water related">Water related</option>
+                  <option value="Danger related">Danger related</option>
+                  <option value="Security related">Security related</option>
+                  <option value="Resident request">Resident request</option>
+                  <option value="Exceptional request">Exceptional request</option>
+                  <option value="Wear & tear (resident)">Wear & tear (resident)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Charge to</label>
+                <select class="select form-control" [(ngModel)]="editT.charge_to" name="charge_to" #charge_to="ngModel">
+                  <option value="Client">Client</option>
+                  <option value="Contractor">Contractor</option>
+                  <option value="Resident">Resident</option>
+                  <option value="Others">Others</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Next Action<span class="text-danger m-l-5">*</span></label>
+                <select class="select form-control" [(ngModel)]="editT.next_action" name="next_action"
+                  #next_action="ngModel" required>
+                  <option *ngFor="let submitterActions of submitterActions">
+                    {{submitterActions}}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Date Scheduled</label>
+                <my-date-picker name="date_scheduled" [options]="myDatePickerOptions1"
+                  [(ngModel)]="editT.date_scheduled" #date_scheduled='ngModel'></my-date-picker>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Main Contractor<span class="text-danger m-l-5">*</span></label>
+                <select class="select form-control" [(ngModel)]="editT.main_contractor" name="main_contractor"
+                  #main_contractor="ngModel" required>
+                  <option value="Jajaran Permata Sdn Bhd">Jajaran Permata Sdn Bhd</option>
+                  <option value="Soonsiang Sdn Bhd">Soonsiang Sdn Bhd</option>
+                  <option value="STS Enterprise">STS Enterprise</option>
+                  <option value="Yit Hing Construction & Trading Sdn Bhd">Yit Hing Construction & Trading Sdn Bhd
+                  </option>
+                  <option value="WP Hong Enterprise">WP Hong Enterprise</option>
+                  <option value="Forum Berkat Enterprise">Forum Berkat Enterprise</option>
+                  <option value="Contractor KotaSAS">Contractor KotaSAS</option>
+                  <option value="ProperLy">ProperLy</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label class="control-label">Time Scheduled</label>
+                <select class="select form-control" [(ngModel)]="editT.time_scheduled" name="time_scheduled"
+                  #time_scheduled="ngModel">
+                  <option *ngFor="let timeList of timeList">
+                    {{timeList}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label class="control-label">AM/PM</label>
+                <select class="select form-control" [(ngModel)]="editT.ampm" name="ampm" #ampm="ngModel">
+                  <option value="AM">AM</option>
+                  <option value="PM">PM</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <input class="form-control" type="hidden" [(ngModel)]="editT.days_open" name="days_open"
+                  #days_open="ngModel">
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <input class="form-control" type="hidden" [(ngModel)]="editT.closed_by" name="closed_by"
+                  #closed_by="ngModel">
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <input class="form-control" type="hidden" [(ngModel)]="editT.approver_remarks" name="approver_remarks"
+                  #approver_remarks="ngModel">
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Work Order Description<span class="text-danger m-l-5">*</span></label>
+                <textarea class="form-control" [(ngModel)]="editT.description" name="description" #description="ngModel"
+                  required></textarea>
+              </div>
+              <div class="form-group">
+                <label>Upload Pictures</label>
+                <input class="form-control" type="file">
+              </div>
+              <div class="form-group">
+                <label>Upload Documents</label>
+                <input class="form-control" type="file">
+              </div>
+            </div>
+
+          </div>
+          <div class="m-t-20 text-center">
+            <div *ngIf="addWorkOrderValidation" class="alert alert-info m-t-10">
+              <strong>Warning!</strong> Must Fill all Mandatory Fields.
+            </div>
+          </div>
+          <div class="m-t-20 text-center">
+            <button class="btn btn-primary" type="submit">Update Work Order</button>
+          </div>
+        </form>
+
+        <div>
+          <h5 class="panel-title m-b-20"></h5>
+        </div>
+
+        <!-- <div class="panel">
+          <div class="panel-body">
+            <h5 class="panel-title m-b-20">Remarks & Approval Log</h5>
+
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="table-responsive table-responsive-inherit">
+
+                  <table class="table table-striped custom-table" [mfData]="rows" #mf="mfDataTable"
+                    [mfRowsOnPage]="1000">
+                    <thead>
+                      <tr>
+                        <th style="width: 10%">
+                          <mfDefaultSorter by="id">Created Date</mfDefaultSorter>
+                        </th>
+                        <th style="width: 10%">
+                          <mfDefaultSorter by="id">Created Time</mfDefaultSorter>
+                        </th>
+                        <th style="width: 10%">
+                          <mfDefaultSorter by="subject">Created By</mfDefaultSorter>
+                        </th>
+                        <th style="width: 15%">
+                          <mfDefaultSorter by="location">Action</mfDefaultSorter>
+                        </th>
+                        <th style="width: 40%">
+                          <mfDefaultSorter by="element">Remarks</mfDefaultSorter>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let approval of approvalLog">
+                        <td>
+                          <input type="text" class="form-control" [(ngModel)]="approval.created_date"
+                            name="approvalLog_created_date" />
+                        </td>
+                        <td>
+                          <input type="text" class="form-control" [(ngModel)]="approval.created_time"
+                            name="approvalLog_created_time" />
+                        </td>
+                        <td>
+                          <input type="text" class="form-control" [(ngModel)]="approval.created_by"
+                            name="approvalLog_created_by" />
+                        </td>
+                        <td>
+                          <input type="text" class="form-control" [(ngModel)]="approval.action"
+                            name="approvalLog_action" />
+                        </td>
+                        <td>
+                          <input type="text" class="form-control" [(ngModel)]="approval.remarks"
+                            name="approvalLog_remarks" />
+                        </td>
+                        <td>
+                          <button type="button" (click)="updateApprovalLog(approval)" class="btn btn-primary rounded">
+                            Update </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colspan="12">
+                          <mfBootstrapPaginator></mfBootstrapPaginator>
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                
+                  <div class="row" *ngIf="nextActionSuccess">
+                    <div class="col-xs-12">
+                      <p class="alert alert-success">
+                        <strong>Success!</strong> {{nextActionMsg}}
+                      </p>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div> -->
+
+      </div>
+    </div>
+  </div>
+</div>

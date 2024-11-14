@@ -1,0 +1,1205 @@
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+
+<div class="page-wrapper">
+  <div class="content container-fluid">
+    <div class="row">
+      <div class="col-xs-8">
+        <h4 class="page-title">{{all_work_orders_all_work_orders}}</h4>
+        <p>Total: {{totalList}}</p>
+      </div>
+
+      <div class="col-xs-4 text-right m-b-30">
+
+        <a class="btn btn-primary  pull-right" style="display:inline-block;margin-bottom:15px;margin-left:2px;"
+          routerLink="/work_orders/submit_work_order"><i class="fa fa-plus"></i>
+          {{my_pending_work_orders_add_work_order}}</a>
+        <button class="btn btn-primary" style="display:inline-block;" printSectionId="WOlist" ngxPrint><i
+            class="fa fa-print"></i> {{all_work_orders_print_work_order}}</button>
+
+      </div>
+    </div>
+
+
+    <!-- <div class="row" *ngIf="ticketScan">
+      <div class="col-xs-12">
+        <p class="alert alert-success">
+          <strong>Scan!</strong> {{scanResults}}
+        </p>
+      </div>
+    </div> -->
+
+
+    <div class="modal-body">
+      <form #searchForm="ngForm" novalidate>
+        <div class="row filter-row">
+
+          <div class="col-sm-3 col-md-2 col-xs-6">
+            <div class="form-group form-focus select-focus">
+              <label class="control-label">{{dashboard_property_developer}}</label>
+              <select class="select floating form-control" [(ngModel)]="searchT.property_developer"
+                name="property_developer" #property_developer="ngModel" required>
+                <option value=""></option>
+                <option value="Downtown">Downtown</option>
+                <option value="Uptown">Uptown</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-sm-3 col-md-2 col-xs-6">
+            <div class="form-group form-focus select-focus">
+              <label class="control-label">{{users_status}}</label>
+              <select class="select floating form-control" [(ngModel)]="searchT.status" name="status" #status="ngModel"
+                required>
+                <option value=""></option>
+                <option value="Downtown">Downtown</option>
+                <option value="Uptown">Uptown</option>
+              </select>
+            </div>
+          </div>
+
+
+          <div class="col-sm-3 col-md-2 col-xs-6">
+            <div class="form-group form-focus select-focus">
+              <label class="control-label">{{add_new_work_orders_work_order_id}}</label>
+              <input type="text" class="form-control floating" [(ngModel)]="searchT.id" name="id" #id="ngModel" />
+            </div>
+          </div>
+          <div class="col-sm-3 col-md-2 col-xs-6">
+            <div class="form-group form-focus select-focus">
+              <label class="control-label">{{add_new_work_orders_precinct_project}}</label>
+              <select class="select floating form-control" [(ngModel)]="searchT.precinct"
+                 name="precinct" #street="ngModel" required>
+                <option *ngFor="let propertiesPrecinctList of propertiesPrecinctList">
+                  {{propertiesPrecinctList}}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-sm-3 col-md-2 col-xs-6">
+            <div class="form-group form-focus select-focus">
+              <label class="control-label">{{add_new_work_orders_street}}</label>
+              <select class="select floating form-control" [(ngModel)]="searchT.street"
+                name="street" #street="ngModel" required>
+                <option *ngFor="let propertiesStreetsList of propertiesStreetsList">
+                  {{propertiesStreetsList}}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-sm-3 col-md-2 col-xs-6">
+            <div class="form-group form-focus select-focus">
+              <label class="control-label">{{add_new_work_orders_house_number}}</label>
+              <select class="select floating form-control" [(ngModel)]="searchT.house_number" name="house_number"
+                #house_number="ngModel" required>
+                <option *ngFor="let propertiesHouseNumberList of propertiesHouseNumberList">
+                  {{propertiesHouseNumberList}}
+                </option>
+              </select>
+            </div>
+          </div>
+
+
+          <div class="col-sm-2 col-md-2 col-xs-6">
+            <div class="form-group form-focus select-focus">
+              <label class="control-label">{{add_new_work_orders_main_contractor}}</label>
+              <select class="select floating form-control" [(ngModel)]="searchT.main_contractor" name="main_contractor"
+                #main_contractor="ngModel" required>
+                <option value=""></option>
+                <option value="Downtown">Downtown</option>
+                <option value="Uptown">Uptown</option>
+              </select>
+            </div>
+          </div>
+
+
+          <div class="col-sm-3 col-md-2 col-xs-6">
+            <div class="form-group form-focus select-focus">
+              <label class="control-label">{{add_new_work_orders_competency}}</label>
+              <input type="text" class="form-control floating" [(ngModel)]="searchT.subject" name="subject"
+                #subject="ngModel" />
+            </div>
+          </div>
+
+          <div class="col-sm-3 col-md-2 col-xs-6">
+            <div class="form-group form-focus select-focus">
+              <label class="control-label">{{add_new_work_orders_date_scheduled}}</label>
+              <input type="date" class="form-control floating" [(ngModel)]="searchT.date_scheduled"
+                name="date_scheduled" #date_scheduled="ngModel" />
+            </div>
+          </div>
+
+          <div class="col-sm-3 col-md-2 col-xs-6">
+            <div class="form-group form-focus select-focus">
+              <label class="control-label">{{add_new_work_orders_priority}}</label>
+              <select class="select floating form-control" [(ngModel)]="searchT.priority" name="priority"
+                #priority="ngModel">
+                <option value="All Priorities"> All Priorities </option>
+                <option value="Urgent"> Urgent </option>
+                <option value="High"> High </option>
+                <option value="Low"> Low </option>
+                <option value="Medium"> Medium </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-sm-3 col-md-2 col-xs-6">
+            <div class="form-group form-focus select-focus">
+              <label class="control-label">{{work_order_details_days_open}}</label>
+              <input type="text" class="form-control floating" [(ngModel)]="searchT.days_open" name="days_open"
+                #days_open="ngModel" />
+            </div>
+          </div>
+          <div class="col-sm-3 col-md-2 col-xs-6">
+            <div class="form-group form-focus select-focus">
+              <label class="control-label">{{work_order_details_created_date}}</label>
+              <input type="date" class="form-control floating" [(ngModel)]="searchT.created_date" name="created_date"
+                #created_date="ngModel" />
+            </div>
+          </div>
+          <div class="col-sm-3 col-md-2 col-xs-6">
+            <div class="form-group form-focus select-focus">
+              <label class="control-label">{{work_order_details_date_closed}}</label>
+              <input type="date" class="form-control floating" [(ngModel)]="searchT.date_closed" name="date_closed"
+                #date_closed="ngModel" />
+            </div>
+          </div>
+          <div class="wrapper">
+            <button class="btn btn-success pull-right">{{generals_clear_search}}</button>
+            <button class="btn btn-success pull-right" style="display:inline-block;margin-right:4px"
+              type="submit">{{generals_search}}</button>
+
+          </div>
+        </div>
+      </form>
+    </div>
+
+
+
+    <div id="WOlist" class="row">
+      <div class="col-md-12">
+        <div class="table-responsive table-responsive-inherit">
+          <table class="table table-striped custom-table">
+            <thead>
+              <tr>
+                <th style="width: 20%">{{users_status}}</th>
+                <th style="width: 20%">{{add_new_work_orders_work_order_id}}</th>
+                <th style="width: 15%">
+                  {{add_new_work_orders_precinct_project}}
+                </th>
+                <th style="width: 15%">
+                  {{add_new_work_orders_street}}
+                </th>
+                <th style="width: 15%">
+                  {{add_new_work_orders_house_number}}
+                </th>
+
+                <th style="width: 15%">{{add_new_work_orders_main_contractor}}</th>
+
+                <th style="width: 20%">{{add_new_work_orders_competency}}</th>
+                <th style="width: 15%">{{add_new_work_orders_location}}</th>
+                <th style="width: 15%">{{add_new_work_orders_element}}</th>
+                <th style="width: 15%">{{add_new_work_orders_defect}}</th>
+                <th style="width: 20%">{{add_new_work_orders_date_scheduled}}</th>
+                <th style="width: 15%">{{add_new_work_orders_time_scheduled}}</th>
+                <th style="width: 20%">{{work_order_details_date_closed}}</th>
+                <th style="width: 20%" class="text-center">{{add_new_work_orders_priority}}</th>
+                <th style="width: 5%">{{generals_actions}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of staticData">
+                <td
+                  [ngStyle]="{'background': getfinalColor(item.status), 'color': getTheFont(item.status), border: '1px solid #ccc', 'min-width': '80px', 'font-size': '12px', 'margin':'7%', 'display': 'inline-block', 'text-align': 'center'}">
+                  {{item.status}}
+                </td>
+                <td><a href="javascript:" (click)="onView(item)">{{item.id}}</a></td>
+                <td>{{item.precinct}}</td>
+                <td>{{item.street}}</td>
+                <td>{{item.house_number}}</td>
+                <td>{{item.main_contractor}}</td>
+                <td>{{item.subject}}</td>
+                <td>{{item.location}}</td>
+                <td>{{item.element}}</td>
+                <td>{{item.defect}}</td>
+                <td>{{item.date_scheduled}}</td>
+                <td>{{item.time_scheduled}} {{item.ampm}}</td>
+                <td>{{item.date_closed}}</td>
+                <td class="text-center">
+                  <span [ngClass]="[
+                    item.priority == 'Urgent' ? 'label-danger-border' : '',
+                    item.priority == 'Low' ? 'label-success-border' : '',
+                    item.priority == 'High' ? 'label-info-border' : '',
+                    item.priority == 'Medium' ? 'label-warning-border' : ''
+                  ]" class="label">{{item.priority}}</span>
+                </td>
+                <td class="text-right">
+                  <div class="dropdown">
+                    <a href="javascript:" class="action-icon dropdown-toggle" data-toggle="dropdown"
+                      aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                    <ul class="dropdown-menu pull-right">
+                      <li><a href="javascript:" title="Edit" (click)="onEdit(item)"><i class="fa fa-pencil m-r-5"></i>
+                          {{generals_edit}}</a></li>
+                      <li><a href="javascript:" title="Delete" (click)="onDelete()"><i
+                            class="fa fa-trash-o m-r-5"></i>{{generals_delete}}</a></li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="12">
+                  <!-- Pagination component if needed -->
+
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div id="delete" class="modal custom-modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content modal-md">
+        <div class="modal-header">
+          <h4 class="modal-title">Delete</h4>
+        </div>
+        <form (ngSubmit)="deleteConfirmation()">
+          <div class="modal-body card-box">
+            <p>Are you sure you want to DELETE this??</p>
+
+            <div class="m-t-20"> <a href="javascript:" class="btn btn-warning" data-dismiss="modal">No</a>
+              <button type="submit" style="margin: 5px;" class="btn btn-danger">Delete</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div id="delete_result" class="modal custom-modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content modal-md">
+        <div class="modal-header">
+          <h4 class="modal-title">Delete</h4>
+        </div>
+        <form (ngSubmit)="deleteResult()">
+          <div class="modal-body card-box">
+            <p>{{delete_results}}</p>
+
+            <div class="m-t-20">
+              <button type="submit" style="margin: 5px;" class="btn btn-success">Okay</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div id="view_all_work_order" class="modal custom-modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="container-fluid">
+
+            <div class="row">
+              <div class="col-xs-12">
+                <h4 class="page-title"><a data-dismiss="modal"
+                    style="cursor:pointer;">{{all_work_orders_all_work_orders}}</a> /
+                  {{viewT.id}}
+                  <div style="text-align:right; width:100%; padding:0;" class="col-sm-3 col-md-2 col-xs-6">
+                    <button class="btn btn-primary" style="display:inline-block;margin-right:2px;margin-bottom:10px"
+                      printSectionId="print_view_all_work_order" ngxPrint><i class="fa fa-print"></i>
+                      {{all_work_orders_print_work_order}}</button>
+                    <a class="btn btn-primary" style="display:inline-block;margin-bottom:10px"
+                      (click)="onEditFromView(viewT)"><i class="fa fa-plus"></i>
+                      {{work_order_details_edit_work_order}}</a>
+                  </div>
+
+                </h4>
+              </div>
+
+            </div>
+
+            <div id="print_view_all_work_order">
+
+              <div class="chat-header">
+                <div class="navbar">
+                  <div class="pull-left ticket-view-details">
+                    <div class="ticket-header">
+                      <span>{{users_status}}: </span> {{viewT.status}}<br><br>
+
+                      <span>{{add_new_work_orders_priority}} : </span>{{viewT.priority}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="panel">
+                <div class="panel-body">
+                  <div class="project-title">
+                    <div class="m-b-20">
+
+                    </div>
+                  </div>
+                  <p style="font-size:20px;">{{viewT.description}}</p>
+                </div>
+              </div>
+
+
+
+              <div class="col-lg-6">
+                <div class="panel">
+                  <div class="panel-body">
+                    <h3 class="panel-title m-b-25"><b>{{work_order_details_work_order_details}}</b></h3>
+                    <table class="table table-striped table-border">
+                      <tbody>
+                        <tr>
+                          <td>{{add_new_work_orders_work_order_id}}:</td>
+                          <td class="text-right" style="font-weight:bold" [innerHTML]="viewT.id"></td>
+                        </tr>
+                        <tr>
+                          <td>{{add_new_work_orders_created_by}}:</td>
+                          <td class="text-right">{{viewT.created_by}}</td>
+                        </tr>
+                        <!-- <tr>
+                          <td>Outlet Work Title:</td>
+                          <td class="text-right">{{viewT.store_work_title}}</td>
+                        </tr> -->
+                        <tr>
+                          <td>{{add_new_work_orders_property_developer}}:</td>
+                          <td class="text-right">{{viewT.property_developer}}</td>
+                        </tr>
+                        <tr>
+                          <td>{{work_order_details_created_date}}:</td>
+                          <td class="text-right">{{viewT.created_date}}</td>
+                        </tr>
+                        <tr>
+                          <td>{{add_new_work_orders_competency}}:</td>
+                          <td class="text-right">{{viewT.subject}}</td>
+                        </tr>
+                        <tr>
+                          <td>{{add_new_work_orders_precinct_project}}:</td>
+                          <td class="text-right">{{viewT.precinct}}</td>
+                        </tr>
+                        <tr>
+                          <td>{{add_new_work_orders_street}}:</td>
+                          <td class="text-right">{{viewT.street}}</td>
+                        </tr>
+                        <tr>
+                          <td>{{add_new_work_orders_house_number}}:</td>
+                          <td class="text-right">{{viewT.house_number}}</td>
+                        </tr>
+                        <tr>
+                          <td>{{work_order_details_resident_name}}:</td>
+                          <td class="text-right">{{residentname}}</td>
+                        </tr>
+                        <tr>
+                          <td>{{work_order_details_resident_phone}}:</td>
+                          <td class="text-right">{{residentphone}}</td>
+                        </tr>
+                        <tr>
+                          <td>{{add_new_work_orders_days_to_execute}}:</td>
+                          <td class="text-right">{{viewT.days_to_execute}}</td>
+                        </tr>
+                        <tr>
+                          <td>{{add_new_work_orders_floor}}:</td>
+                          <td class="text-right">{{viewT.floor}}</td>
+                        </tr>
+                        <tr>
+                          <td>{{add_new_work_orders_location}}:</td>
+                          <td class="text-right">{{viewT.location}}</td>
+                        </tr>
+                        <tr>
+                          <td>{{add_new_work_orders_element}}:</td>
+                          <td class="text-right">{{viewT.element}}</td>
+                        </tr>
+                        <tr>
+                          <td>{{add_new_work_orders_defect}}:</td>
+                          <td class="text-right">{{viewT.defect}}</td>
+                        </tr>
+                        <tr>
+                          <td>{{add_new_work_orders_cause}}:</td>
+                          <td class="text-right">{{viewT.cause}}</td>
+                        </tr>
+                        <tr>
+                          <td>{{work_order_details_next_action}}:</td>
+                          <td class="text-right">{{viewT.next_action}}</td>
+                        </tr>
+                        <tr>
+                          <td>{{add_new_work_orders_main_contractor}}:</td>
+                          <td class="text-right">{{viewT.main_contractor}}</td>
+                        </tr>
+                        <!-- <tr>
+                          <td>Outlet Work Title:</td>
+                          <td class="text-right">{{viewT.store_work_title}}</td>
+                        </tr> -->
+                        <tr>
+                          <td>{{add_new_work_orders_date_scheduled}}:</td>
+                          <td class="text-right">{{viewT.date_scheduled}}</td>
+                        </tr>
+                        <tr>
+                          <td>{{add_new_work_orders_time_scheduled}}:</td>
+                          <td class="text-right">{{viewT.time_scheduled}}{{viewT.ampm}}</td>
+                        </tr>
+                        <tr>
+                          <td>{{work_order_details_days_open}}:</td>
+                          <td class="text-right">{{viewT.days_open}}</td>
+                        </tr>
+                        <tr>
+                          <td>{{add_new_work_orders_costs}}:</td>
+                          <td class="text-right">{{viewT.costs}}</td>
+                        </tr>
+                        <tr>
+                          <td>{{add_new_work_orders_invoice}}:</td>
+                          <td class="text-right">{{viewT.invoice}}</td>
+                        </tr>
+                        <tr>
+                          <td>{{add_new_work_orders_charge_to}}:</td>
+                          <td class="text-right">{{viewT.charge_to}}</td>
+                        </tr>
+                        <tr>
+                          <td>{{work_order_details_date_closed}}:</td>
+                          <td class="text-right">{{viewT.date_closed}}</td>
+                        </tr>
+                        <tr>
+                          <td>{{work_order_details_time_closed}}:</td>
+                          <td class="text-right">{{viewT.time_closed}}</td>
+                        </tr>
+                        <tr>
+                          <td>{{work_order_details_closed_by}}:</td>
+                          <td class="text-right">{{viewT.closed_by}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-body">
+                <h5 class="panel-title m-b-20">{{generals_uploaded_images}} ({{totalPics}})</h5>
+                <div class="row">
+
+                  <div class="col-md-3 col-sm-6">
+                    <div class="thumbnail">
+                      <div class="thumb">
+                        <!-- <pinch-zoom>
+                          <img src="{{viewPictures}}" wheel=true (click)="openImageView(i)" />
+                        </pinch-zoom> -->
+                      </div>
+
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-body">
+                <h5 class="panel-title m-b-20">{{generals_uploaded_files}} ({{totalFiles}})</h5>
+                <ul class="files-list">
+
+                  <li *ngFor="let viewFiles of viewFiles">
+                    <div class="files-cont">
+                      <div class="file-type">
+                        <span class="files-icon"><i class="fa fa-file-pdf-o"></i></span>
+                      </div>
+                      <div class="files-info">
+                        <span class="file-name text-ellipsis"><a href="{{viewFiles}}"
+                            target="_blank">{{viewFiles}}</a></span>
+                        <span class="file-author"><a href="javascript:">{{viewT.created_by}} </a></span> <span
+                          class="file-date">{{viewT.created_date}}</span>
+                      </div>
+                      <ul class="files-action">
+                        <li class="dropdown">
+                          <a href="javascript:" class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown"
+                            aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
+                          <ul class="dropdown-menu">
+                            <li><a href="{{viewFiles}}">{{generals_download}}</a></li>
+
+                            <li><a href="javascript:void(0)">{{generals_delete}}</a></li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+
+                </ul>
+              </div>
+            </div>
+
+            <div *ngIf="showfloorplan" style="width: 100%; max-width: 800; margin: auto;">
+              <h3 class="panel-title m-b-25"><b>Floor Plan</b></h3>
+              <div style="position:relative;padding-bottom: 60%;">
+                <div id='smplr-container'
+                  style="position:absolute;width: 100%;height: 100%;background-color: whitesmoke;">
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-body">
+                <h5 class="panel-title m-b-20">{{work_order_details_remarks_and_approval_log}}</h5>
+                <!-- <div class="row" *ngIf="approvalLogScan">
+                  <div class="col-xs-12">
+                    <p class="alert alert-success">
+                      <strong>Scan!</strong> {{scanResultsApproval}}
+                    </p>
+                  </div>
+                </div> -->
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="table-responsive table-responsive-inherit">
+
+                      <table class="table table-striped custom-table">
+                        <thead>
+                          <tr>
+                            <th style="width: 10%">
+                              {{work_order_details_created_date}}
+                            </th>
+                            <th style="width: 10%">
+                              {{work_order_details_created_time}}
+                            </th>
+                            <th style="width: 10%">
+                              {{work_order_details_created_by}}
+                            </th>
+                            <th style="width: 15%">
+                              {{work_order_details_action}}
+                            </th>
+                            <th style="width: 40%">
+                              {{work_order_details_remarks}}
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let approvalLog of approvalLogs">
+                            <td>{{approvalLog.created_date}}</td>
+                            <td>{{approvalLog.created_time}}</td>
+                            <td>{{approvalLog.created_by}}</td>
+                            <td>{{approvalLog.action}}</td>
+                            <td>{{approvalLog.remarks}}</td>
+                          </tr>
+                        </tbody>
+                        <tfoot>
+                          <tr>
+                            <td colspan="12">
+
+                            </td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+
+
+                <div class="panel">
+                  <div class="panel-body">
+                    <h5 class="panel-title m-b-20">{{work_order_details_add_remark}}</h5>
+                    <div class="row filter-row">
+
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label>{{work_order_details_remarks}}<span class="text-danger m-l-5">*</span></label>
+                          <textarea class="form-control" [(ngModel)]="viewT.approver_remarks" name="approver_remarks"
+                            #approver_remarks="ngModel" required></textarea>
+                        </div>
+                      </div>
+                      <!-- 
+                      <div class="row">
+                        <div class="col-xs-12">
+                          <p class="alert alert-success">
+                            <strong>Add Remark!</strong> {{nextActionMsg}}
+                          </p>
+                        </div>
+                      </div> -->
+
+                      <div class="col-sm-6 col-md-2 col-xs-6" style="width:100%;">
+                        <a style="width: 30%; margin: 0px auto;" href="javascript:" class="btn btn-success btn-block"
+                          (click)='AddRemarkFromAllWorkOrder(viewT)'> {{work_order_details_add_remark}} </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="edit_work_order" class="modal custom-modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <div class="modal-content modal-lg">
+        <div class="col-xs-8" style="padding: 20px;">
+          <h4 class="modal-title">{{work_order_details_edit_work_order}}</h4>
+        </div>
+
+
+
+        <div class="row m-t-20" style="padding: 20px;">
+          <div class="col-md-12">
+            <form #editForm="ngForm" novalidate>
+              <div class="row">
+
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>{{add_new_work_orders_created_by}}<span class="text-danger m-l-5">*</span></label>
+                    <input class="form-control" readonly type="text" [(ngModel)]="editT.created_by" name="created_by"
+                      #created_by="ngModel" required>
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>{{add_new_work_orders_work_order_id}}<span class="text-danger m-l-5">*</span></label>
+                    <input class="form-control" readonly type="text" [(ngModel)]="editT.id" name="id" #id="ngModel"
+                      required>
+                  </div>
+                </div>
+
+
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>{{add_new_work_orders_house_number}}<span class="text-danger m-l-5">*</span></label>
+                    <select class="select form-control" [(ngModel)]="editT.house_number" name="house_number"
+                      #house_number="ngModel" required>
+                      <option *ngFor="let propertiesHouseNumberList of propertiesHouseNumberList">
+                        {{propertiesHouseNumberList}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>{{add_new_work_orders_street}}<span class="text-danger m-l-5">*</span></label>
+                    <select class="select form-control" [(ngModel)]="editT.street" name="street" #street="ngModel"
+                      required>
+                      <option *ngFor="let propertiesStreetsList of propertiesStreetsList">
+                        {{propertiesStreetsList}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>{{add_new_work_orders_competency}}<span class="text-danger m-l-5">*</span></label>
+                    <select class="select form-control" [(ngModel)]="editT.subject" name="subject" #subject="ngModel"
+                      required>
+                      <option value="Back gate">Back gate</option>
+                      <option value="Chainlink">Chainlink</option>
+                      <option value="Cracks">Cracks</option>
+                      <option value="Door">Door</option>
+                      <option value="Electrical">Electrical</option>
+                      <option value="Floortrap">Floortrap</option>
+                      <option value="General maintenance">General maintenance</option>
+                      <option value="Grating">Grating</option>
+                      <option value="INI Concept">INI Concept</option>
+                      <option value="Inspection">Inspection</option>
+                      <option value="Interlocking">Interlocking</option>
+                      <option value="Floor Cement">Floor Cement</option>
+                      <option value="Floor Tiles">Floor Tiles</option>
+                      <option value="Floor Laminated">Floor Laminated</option>
+                      <option value="Leakage">Leakage</option>
+                      <option value="Letter box">Letter box</option>
+                      <option value="Lock">Lock</option>
+                      <option value="Paint job">Paint job</option>
+                      <option value="Perimeter wall">Perimeter wall</option>
+                      <option value="Plumbing">Plumbing</option>
+                      <option value="Roof">Roof</option>
+                      <option value="Rusty spots">Rusty spots</option>
+                      <option value="Smelly">Smelly</option>
+                      <option value="Soil">Soil</option>
+                      <option value="Tap installation">Tap installation</option>
+                      <option value="TNB">TNB</option>
+                      <option value="Toilet bowl">Toilet bowl</option>
+                      <option value="Wall plaster">Wall plaster</option>
+                      <option value="Wall tiles">Wall tiles</option>
+                      <option value="Waterproofing">Waterproofing</option>
+                      <option value="Window">Window</option>
+                      <option value="Others">Front Gate</option>
+                      <option value="Others">DLP Letter</option>
+                      <option value="Others">Floor Trap</option>
+                      <option value="Others">Sinky</option>
+                      <option value="Others">Pest</option>
+                      <option value="Others">Fibre Optic</option>
+                      <option value="Others">Fitting Request</option>
+                      <option value="Others">Others</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>{{add_new_work_orders_floor}}<span class="text-danger m-l-5">*</span></label>
+                    <select class="select form-control" [(ngModel)]="editT.floor" name="floor" #floor="ngModel"
+                      required>
+                      <option value="Ground floor">Ground floor</option>
+                      <option value="1st Floor">1st floor</option>
+                      <option value="2nd floor">2nd floor</option>
+                      <option value="3rd floor">3rd floor</option>
+                      <option value="Basement">Basement</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>{{add_new_work_orders_days_to_execute}}<span class="text-danger m-l-5">*</span></label>
+                    <select class="select form-control" [(ngModel)]="editT.days_to_execute" name="days_to_execute"
+                      #days_to_execute="ngModel" required>
+                      <option value="1">1</option>
+                      <option value="5">5</option>
+                      <option value="10">10</option>
+                      <option value="21">21</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>{{add_new_work_orders_location}}<span class="text-danger m-l-5">*</span></label>
+                    <select class="select form-control" [(ngModel)]="editT.location" name="location" #location="ngModel"
+                      required>
+                      <option value="Shop Lot">Shop Lot</option>
+                      <option value="Restaurant">Restaurant</option>
+                      <option value="Office">Office</option>
+                      <option value="Pests">Pests</option>
+                      <option value="Attic">Attic</option>
+                      <option value="Back of unit">Back of unit</option>
+                      <option value="Balcony">Balcony</option>
+                      <option value="Bathroom">Bathroom</option>
+                      <option value="Bedroom 01">Bedroom 01</option>
+                      <option value="Bedroom 02">Bedroom 02</option>
+                      <option value="Bedroom 03">Bedroom 03</option>
+                      <option value="Carport">Carport</option>
+                      <option value="Conneting bathroom">Conneting bathroom</option>
+                      <option value="Dining hall">Dining hall</option>
+                      <option value="Elevator">Elevator</option>
+                      <option value="Front of unit">Front of unit</option>
+                      <option value="Garden">Garden</option>
+                      <option value="Kitchen">Kitchen</option>
+                      <option value="Landing / family hall">Landing / family hall</option>
+                      <option value="Living room">Living room</option>
+                      <option value="Master bathroom">Master bathroom</option>
+                      <option value="Master bedroom">Master bedroom</option>
+                      <option value="Pantry">Pantry</option>
+                      <option value="Parking lot">Parking lot</option>
+                      <option value="Perimeter wall">Perimeter wall</option>
+                      <option value="Roof">Roof</option>
+                      <option value="Security systems">Security systems</option>
+                      <option value="Side of unit">Side of unit</option>
+                      <option value="Staircase">Staircase</option>
+                      <option value="Storage room">Storage room</option>
+                      <option value="Trash area">Trash area</option>
+                      <option value="Wet kitchen">Wet kitchen</option>
+                      <option value="Complete Unit">Complete Unit</option>
+                      <option value="Location not listed">Location not listed</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>{{add_new_work_orders_priority}}<span class="text-danger m-l-5">*</span></label>
+                    <select class="select form-control" [(ngModel)]="editT.priority" name="priority" #priority="ngModel"
+                      required>
+                      <option value="Urgent">Urgent</option>
+                      <option value="High">High</option>
+                      <option value="Medium">Medium</option>
+                      <option value="Low">Low</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>{{add_new_work_orders_element}}<span class="text-danger m-l-5">*</span></label>
+                    <select class="select form-control" [(ngModel)]="editT.element" name="element" #element="ngModel"
+                      required>
+                      <option value="Airconditioning">Airconditioning</option>
+                      <option value="Alarm">Alarm</option>
+                      <option value="Autogate">Autogate</option>
+                      <option value="Basin">Basin</option>
+                      <option value="Bath tub">Bath tub</option>
+                      <option value="Ceiling">Ceiling</option>
+                      <option value="Distribution Board (DB)">Distribution Board (DB)</option>
+                      <option value="Door (frame)">Door (frame)</option>
+                      <option value="Door (internal)">Door (internal)</option>
+                      <option value="Door (knob)">Door (knob)</option>
+                      <option value="Door (outer)">Door (outer)</option>
+                      <option value="Door (shower)">Door (shower)</option>
+                      <option value="Door (sliding)">Door (sliding)</option>
+                      <option value="Doorbell">Doorbell</option>
+                      <option value="Down water drain pipe">Down water drain pipe</option>
+                      <option value="Drain">Drain</option>
+                      <option value="Earth pods">Earth pods</option>
+                      <option value="Electrical (black-out)">Electrical (black-out)</option>
+                      <option value="Electrical (wiring)">Electrical (wiring)</option>
+                      <option value="Elevator">Elevator</option>
+                      <option value="Fan">Fan</option>
+                      <option value="Fan point">Fan point</option>
+                      <option value="Fascia board">Fascia board</option>
+                      <option value="Fence">Fence</option>
+                      <option value="Fibre optics">Fibre optics</option>
+                      <option value="Floor (concrete)">Floor (concrete)</option>
+                      <option value="Floor (stone wash)">Floor (stone wash)</option>
+                      <option value="Floor (tiles)">Floor (tiles)</option>
+                      <option value="Floor (skirting tiles)">Floor (skirting tiles)</option>
+                      <option value="Floor (wood)">Floor (wood)</option>
+                      <option value="Floor trap">Floor trap</option>
+                      <option value="Gate (back)">Gate (back)</option>
+                      <option value="Gate (main)">Gate (main)</option>
+                      <option value="Glass wall">Glass wall</option>
+                      <option value="Grating">Grating</option>
+                      <option value="Handrail">Handrail</option>
+                      <option value="Intercom">Intercom</option>
+                      <option value="Interlocking / tar road">Interlocking / tar road</option>
+                      <option value="Kitchen cabinet">Kitchen cabinet</option>
+                      <option value="Kitchen table top">Kitchen table top</option>
+                      <option value="Letterbox">Letterbox</option>
+                      <option value="Lighting point">Lighting point</option>
+                      <option value="Mirror">Mirror</option>
+                      <option value="Overflow pipe">Overflow pipe</option>
+                      <option value="Pests">Pests</option>
+                      <option value="Pillars (carport)">Pillars (carport)</option>
+                      <option value="Pillars (gate)">Pillars (gate)</option>
+                      <option value="Roll-up shutter (electric)">Roll-up shutter (electric)</option>
+                      <option value="Roll-up shutter (manual)">Roll-up shutter (manual)</option>
+                      <option value="Roof (flashing)">Roof (flashing)</option>
+                      <option value="Roof (flat)">Roof (flat)</option>
+                      <option value="Roof (tiles)">Roof (tiles)</option>
+                      <option value="Roof duct">Roof duct</option>
+                      <option value="Septic tank">Septic tank</option>
+                      <option value="Sewage (manhole)">Sewage (manhole)</option>
+                      <option value="Shower head">Shower head</option>
+                      <option value="Sinky">Sinky</option>
+                      <option value="SMATV Socket">SMATV Socket</option>
+                      <option value="Soap holder">Soap holder</option>
+                      <option value="Socket (electric)">Socket (electric)</option>
+                      <option value="Socket (airconditioning)">Socket (airconditioning)</option>
+                      <option value="Soil">Soil</option>
+                      <option value="Solar panel">Solar panel</option>
+                      <option value="Stopcock">Stopcock</option>
+                      <option value="Stopcock (basin)">Stopcock (basin)</option>
+                      <option value="Stopcock (main)">Stopcock (main)</option>
+                      <option value="Stopcock (shower)">Stopcock (shower)</option>
+                      <option value="Street lights">Street lights</option>
+                      <option value="Switch (electric)">Switch (electric)</option>
+                      <option value="Tanky">Tanky</option>
+                      <option value="Tanky (floater)">Tanky (floater)</option>
+                      <option value="Tap">Tap</option>
+                      <option value="Tap (basin)">Tap (basin)</option>
+                      <option value="Tap (garden)">Tap (garden)</option>
+                      <option value="Tap (kitchen)">Tap (kitchen)</option>
+                      <option value="Tap (Sanitary)">Tap (Sanitary)</option>
+                      <option value="Tap (shower)">Tap (shower)</option>
+                      <option value="Tap (sinky)">Tap (sinky)</option>
+                      <option value="Tap (wall)">Tap (wall)</option>
+                      <option value="Tap (washing machine)">Tap (washing machine)</option>
+                      <option value="Telephone cable socket">Telephone cable socket</option>
+                      <option value="Toilet roll holder">Toilet roll holder</option>
+                      <option value="Trees / bushes">Trees / bushes</option>
+                      <option value="Ventilation system">Ventilation system</option>
+                      <option value="Wall (inner)">Wall (inner)</option>
+                      <option value="Wall (outer)">Wall (outer)</option>
+                      <option value="Wall (tiles)">Wall (tiles)</option>
+                      <option value="Water closet">Water closet</option>
+                      <option value="Water closet (cistern)">Water closet (cistern)</option>
+                      <option value="Water heater">Water heater</option>
+                      <option value="Water heater socket">Water heater socket</option>
+                      <option value="Water heater switch">Water heater switch</option>
+                      <option value="Water meter">Water meter</option>
+                      <option value="Water piping">Water piping</option>
+                      <option value="Water pump">Water pump</option>
+                      <option value="Water tank">Water tank</option>
+                      <option value="Window (glass)">Window (glass)</option>
+                      <option value="Window (frame)">Window (frame)</option>
+                      <option value="Complete Unit">Complete Unit</option>
+                      <option value="Element not listed">Element not listed</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>{{add_new_work_orders_costs}}</label>
+                    <input class="form-control" type="text" [(ngModel)]="editT.costs" name="costs" #costs="ngModel">
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>{{add_new_work_orders_defect}}<span class="text-danger m-l-5">*</span></label>
+                    <select class="select form-control" [(ngModel)]="editT.defect" name="defect" #defect="ngModel"
+                      required>
+                      <option value="3 phase">3 phase</option>
+                      <option value="Broken">Broken</option>
+                      <option value="Can't switch off">Can't switch off</option>
+                      <option value="Can't switch on">Can't switch on</option>
+                      <option value="Can not close">Can not close</option>
+                      <option value="Can not open">Can not open</option>
+                      <option value="Chipped">Chipped</option>
+                      <option value="Clogged">Clogged</option>
+                      <option value="Collapsed">Collapsed</option>
+                      <option value="Crack (hairline)">Crack (hairline)</option>
+                      <option value="Cracked">Cracked</option>
+                      <option value="Damaged">Damaged</option>
+                      <option value="Dirty">Dirty</option>
+                      <option value="Does not work">Does not work</option>
+                      <option value="Hollow">Hollow</option>
+                      <option value="Housekeeping">Housekeeping</option>
+                      <option value="Inspection">Inspection</option>
+                      <option value="Leaking">Leaking</option>
+                      <option value="Leakage">Leakage</option>
+                      <option value="Loose">Loose</option>
+                      <option value="Makes noise">Makes noise</option>
+                      <option value="Moisture / wet">Moisture / wet</option>
+                      <option value="Molded">Molded</option>
+                      <option value="Needs filling">Needs filling</option>
+                      <option value="Not level">Not level</option>
+                      <option value="Not painted">Not painted</option>
+                      <option value="Not painted (inner)">Not painted (inner)</option>
+                      <option value="Not painted (outer)">Not painted (outer)</option>
+                      <option value="Not painted smoothly">Not painted smoothly</option>
+                      <option value="Paint Scratched">Paint Scratched</option>
+                      <option value="Paint smudge">Paint smudge</option>
+                      <option value="Paint stain">Paint stain</option>
+                      <option value="Parts missing">Parts missing</option>
+                      <option value="Plastering not smooth">Plastering not smooth</option>
+                      <option value="Plastering rough">Plastering rough</option>
+                      <option value="Poor finishing">Poor finishing</option>
+                      <option value="Rendering">Rendering</option>
+                      <option value="Rotting">Rotting</option>
+                      <option value="Rusted">Rusted</option>
+                      <option value="Rusty spots">Rusty spots</option>
+                      <option value="Sagged in / displaced">Sagged in / displaced</option>
+                      <option value="Scratched">Scratched</option>
+                      <option value="Silicon damaged/missing">Silicon damaged/missing</option>
+                      <option value="Smells bad">Smells bad</option>
+                      <option value="Smudged">Smudged</option>
+                      <option value="Stopped">Stopped</option>
+                      <option value="Stuck">Stuck</option>
+                      <option value="Swollen / Bulged">Swollen / Bulged</option>
+                      <option value="Too long">Too long</option>
+                      <option value="Touch up paint">Touch up paint</option>
+                      <option value="Uneven">Uneven</option>
+                      <option value="Water marks">Water marks</option>
+                      <option value="Water ponding">Water ponding</option>
+                      <option value="Water pressure low">Water pressure low</option>
+                      <option value="Waterproofing">Waterproofing</option>
+                      <option value="Wet / Moisturous">Wet / Moisturous</option>
+                      <option value="Wiring problem">Wiring problem</option>
+                      <option value="Defect not listed">Defect not listed</option>
+                    </select>
+                  </div>
+                </div>
+
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>{{add_new_work_orders_invoice}}</label>
+                    <input class="form-control" type="text" [(ngModel)]="editT.invoice" name="invoice"
+                      #invoice="ngModel">
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>{{add_new_work_orders_cause}}<span class="text-danger m-l-5">*</span></label>
+                    <select class="select form-control" [(ngModel)]="editT.cause" name="cause" #cause="ngModel"
+                      required>
+                      <option value="Unfinished work">Unfinished work</option>
+                      <option value="Poor workmanship">Poor workmanship</option>
+                      <option value="Incorrect installation">Incorrect installation</option>
+                      <option value="Structual">Structual</option>
+                      <option value="Repeated case">Repeated case</option>
+                      <option value="Weather related">Weather related</option>
+                      <option value="Water related">Water related</option>
+                      <option value="Danger related">Danger related</option>
+                      <option value="Security related">Security related</option>
+                      <option value="Resident request">Resident request</option>
+                      <option value="Exceptional request">Exceptional request</option>
+                      <option value="Wear & tear (resident)">Wear & tear (resident)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>{{add_new_work_orders_charge_to}}</label>
+                    <select class="select form-control" [(ngModel)]="editT.charge_to" name="charge_to"
+                      #charge_to="ngModel">
+                      <option value="Client">Client</option>
+                      <option value="Contractor">Contractor</option>
+                      <option value="Resident">Resident</option>
+                      <option value="Others">Others</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>{{add_new_work_orders_next_action}}<span class="text-danger m-l-5">*</span></label>
+                    <select class="select form-control" [(ngModel)]="editT.next_action" name="next_action"
+                      #next_action="ngModel" required>
+                      <option value="Client">Client</option>
+                      <option value="Contractor">Contractor</option>
+                      <option value="Resident">Resident</option>
+                      <option value="Others">Others</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>{{add_new_work_orders_date_scheduled}}</label>
+                    <input class="form-control" type="date" #date_scheduled='ngModel' name='date_scheduled'
+                      [(ngModel)]='editT.date_scheduled'>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>{{add_new_work_orders_main_contractor}}<span class="text-danger m-l-5">*</span></label>
+                    <select class="select form-control" [(ngModel)]="editT.main_contractor" name="main_contractor"
+                      #main_contractor="ngModel" required>
+                      <option value="Jajaran Permata Sdn Bhd">Jajaran Permata Sdn Bhd</option>
+                      <option value="Soonsiang Sdn Bhd">Soonsiang Sdn Bhd</option>
+                      <option value="STS Enterprise">STS Enterprise</option>
+                      <option value="Yit Hing Construction & Trading Sdn Bhd">Yit Hing Construction & Trading Sdn Bhd
+                      </option>
+                      <option value="WP Hong Enterprise">WP Hong Enterprise</option>
+                      <option value="Forum Berkat Enterprise">Forum Berkat Enterprise</option>
+                      <option value="Contractor KotaSAS">Contractor KotaSAS</option>
+                      <option value="ProperLy">ProperLy</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label class="control-label">{{add_new_work_orders_time_scheduled}}</label>
+                    <select class="select form-control" [(ngModel)]="editT.time_scheduled" name="time_scheduled"
+                      #time_scheduled="ngModel">
+                      <option value="5:00">5:00</option>
+                      <option value="6:00">6:00</option>
+                      <option value="7:00">7:00</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label class="control-label">{{add_new_work_orders_am_pm}}</label>
+                    <select class="select form-control" [(ngModel)]="editT.ampm" name="ampm" #ampm="ngModel">
+                      <option value="AM">AM</option>
+                      <option value="PM">PM</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input class="form-control" type="hidden" [(ngModel)]="editT.days_open" name="days_open"
+                      #days_open="ngModel">
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input class="form-control" type="hidden" [(ngModel)]="editT.created_date" name="created_date"
+                      #days_open="ngModel">
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input class="form-control" type="hidden" [(ngModel)]="editT.closed_by" name="closed_by"
+                      #closed_by="ngModel">
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input class="form-control" type="hidden" [(ngModel)]="editT.approver_remarks"
+                      name="approver_remarks" #approver_remarks="ngModel">
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>{{add_new_work_orders_work_order_description}}<span
+                        class="text-danger m-l-5">*</span></label>
+                    <textarea class="form-control" [(ngModel)]="editT.description" name="description"
+                      #description="ngModel" required></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label>{{add_new_work_orders_upload_pictures}}</label>
+                    <input class="form-control" type="file" ng2FileSelect accept=".png, .jpeg" multiple />
+                  </div>
+                  <div class="form-group">
+                    <label>{{add_new_work_orders_upload_documents_pdf_only}}</label>
+                    <input class="form-control" type="file" ng2FileSelect accept=".pdf" multiple />
+                  </div>
+                </div>
+
+              </div>
+              <div class="m-t-20 text-center">
+                <div *ngIf="addWorkOrderValidation" class="alert alert-info m-t-10">
+                  <strong>Warning!</strong> Must Fill all Mandatory Fields.
+                </div>
+              </div>
+              <div class="row" *ngIf="showSuccessMsg">
+                <div class="col-xs-12">
+                  <p class="alert alert-success">
+                    <strong>Success!</strong> {{TicketSubmitted}}
+                  </p>
+                </div>
+              </div>
+              <div class="m-t-20 text-center">
+                <button class="btn btn-primary" type="submit">{{work_order_details_update_work_order}}</button>
+              </div>
+            </form>
+
+            <div>
+              <h5 class="panel-title m-b-20"></h5>
+            </div>
+
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+</div>

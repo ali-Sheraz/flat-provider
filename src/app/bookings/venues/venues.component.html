@@ -1,0 +1,299 @@
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+
+<div class="page-wrapper">
+
+  <div class="content container-fluid">
+    <div class="row">
+      <div class="col-xs-8">
+        <h4 class="page-title">{{head_title}}</h4>
+        <p>Total: {{totalList}}</p>
+      </div>
+      <!-- <input type="file" style="display: inline-block;" (change)="onFileUpload($event)" placeholder="Upload file" accept=".xlsx"> -->
+
+      <div class="col-xs-4 text-right m-b-30">
+        <a href="javascript:" class="btn btn-primary pull-right" (click)="addReset()"><i class="fa fa-plus"></i>
+          {{bookings_add_venue}}</a>
+      </div>
+    </div>
+
+    <!-- <div class="row" *ngIf="scan">
+    <div class="col-xs-12">
+      <p class="alert alert-success">
+        <strong>Scan!</strong> {{scanResults}}
+      </p>
+    </div>
+  </div> -->
+
+
+    <div class="modal-body">
+      <form #searchForm="ngForm" novalidate>
+        <div class="row filter-row">
+
+          <div class="col-sm-3 col-md-2 col-xs-6">
+            <div class="form-group form-focus select-focus">
+              <label class="control-label">{{bookings_title}}</label>
+              <input type="text" class="form-control floating" [(ngModel)]="searchT.title" name="title"
+                #property_developer="ngModel" />
+            </div>
+          </div>
+
+          <div class="col-sm-3 col-md-2 col-xs-6">
+            <div class="form-group form-focus select-focus">
+              <label class="control-label">{{bookings_location}}</label>
+              <input type="text" class="form-control floating" [(ngModel)]="searchT.location" name="location"
+                #location="ngModel" />
+            </div>
+          </div>
+
+
+          <div class="wrapper">
+            <button class="btn btn-success pull-right">{{generals_clear_search}}</button>
+            <button class="btn btn-success pull-right" style="display:inline-block;margin-right:4px"
+              type="submit">{{generals_search}}</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table-responsive">
+          <table class="table table-striped custom-table">
+            <thead>
+              <tr>
+                <th style="width: 20%">
+                  {{bookings_title}}
+                </th>
+                <th style="width: 20%">
+                  {{bookings_location}}
+                </th>
+                <th style="width: 20%">
+                  {{bookings_booking_start_time}}
+                </th>
+                <th style="width: 20%">
+                  {{bookings_booking_end_time}}
+                </th>
+                <th style="width: 20%">
+                  {{bookings_minimum_booking_time_hours}}
+                </th>
+                <th style="width: 20%">
+                  {{bookings_maximum_booking_time_hours}}
+                </th>
+                <th style="width: 0.1%">
+                  {{generals_actions}}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of row">
+                <td>{{item.title}}</td>
+                <td>{{item.location}}</td>
+                <td>{{item.booking_start_time}}</td>
+                <td>{{item.booking_end_time}}</td>
+                <td>{{item.minimum_booking_time}}</td>
+                <td>{{item.maximum_booking_time}}</td>
+                <td class="text-right">
+                  <div class="dropdown">
+                    <a href="javascript:" class="action-icon dropdown-toggle" data-toggle="dropdown"
+                      aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                    <ul class="dropdown-menu pull-right">
+                      <li><a href="javascript:" title="Edit" (click)="onEdit(item)"><i class="fa fa-pencil m-r-5"></i>
+                          {{generals_edit}}</a></li>
+                      <li ><a href="javascript:"
+                          title="Delete" (click)="onDelete(item)"><i class="fa fa-trash-o m-r-5"></i>
+                          {{generals_delete}}</a></li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="12">
+
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="delete" class="modal custom-modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content modal-md">
+        <div class="modal-header">
+          <h4 class="modal-title">Delete</h4>
+        </div>
+        <form (ngSubmit)="deleteConfirmation()">
+          <div class="modal-body card-box">
+            <p>Are you sure you want to DELETE this??</p>
+
+            <div class="m-t-20"> <a href="javascript:" class="btn btn-warning" >No</a>
+              <button type="submit" style="margin: 5px;" class="btn btn-danger">Delete</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div id="delete_result" class="modal custom-modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content modal-md">
+        <div class="modal-header">
+          <h4 class="modal-title">Delete</h4>
+        </div>
+        <form (ngSubmit)="deleteResult()">
+          <div class="modal-body card-box">
+            <p>{{delete_results}}</p>
+
+            <div class="m-t-20">
+              <button type="submit" style="margin: 5px;" class="btn btn-success">Okay</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <div id="add_modal" class="modal custom-modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <div class="modal-content modal-md">
+        <div class="modal-header" style="padding: 20px;">
+          <h4 class="modal-title">{{bookings_add_venue}}</h4>
+        </div>
+        <div class="modal-body" style="padding: 20px;">
+          <form #addForm="ngForm">
+
+            <div class="form-group">
+              <label>{{bookings_title}} <span class="text-danger">*</span></label>
+              <input class="form-control" type="text" #title='ngModel' name='title' [(ngModel)]='addLT.title' required>
+            </div>
+
+            <div class="form-group">
+              <label>{{bookings_location}} <span class="text-danger">*</span></label>
+              <input class="form-control" type="text" #location='ngModel' name='location' [(ngModel)]='addLT.location'
+                required>
+            </div>
+
+            <div class="form-group">
+              <label class="col-form-label">{{bookings_booking_start_time}}<span class="text-danger">*</span></label>
+              <input class="form-control" name="booking_start_time" id="booking_start_time"
+                [(ngModel)]="addLT.booking_start_time" name="booking_start_time" #booking_start_time="ngModel"
+                type="time">
+            </div>
+
+            <div class="form-group">
+              <label class="col-form-label">{{bookings_booking_end_time}} <span class="text-danger">*</span></label>
+              <input class="form-control" name="booking_end_time" id="booking_end_time"
+                [(ngModel)]="addLT.booking_end_time" name="booking_end_time" #booking_end_time="ngModel" type="time">
+            </div>
+
+            <div class="form-group">
+              <label>{{bookings_minimum_booking_time_hours}}<span class="text-danger m-l-5">*</span></label>
+              <select class="select form-control" [(ngModel)]="addLT.minimum_booking_time" name="minimum_booking_time"
+                #minimum_booking_time="ngModel" required>
+                <option value="5:00">5:00</option>
+                <option value="6:00">6:00</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>{{bookings_maximum_booking_time_hours}}<span class="text-danger m-l-5">*</span></label>
+              <select class="select form-control" [(ngModel)]="addLT.maximum_booking_time" name="maximum_booking_time"
+                #maximum_booking_time="ngModel" required>
+                <option value="5:00">5:00</option>
+                <option value="6:00">6:00</option>
+              </select>
+            </div>
+
+            <div class="m-t-20 text-center">
+              <button class="btn btn-primary">{{bookings_add_venue}}</button>
+            </div>
+            <div *ngIf="addVenueValidation" class="alert alert-info m-t-10">
+              <strong>Warning!</strong> Must Fill all Mandatory Fields.
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div id="Edit_modal" class="modal custom-modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <div class="modal-content modal-md">
+        <div class="modal-header" style="padding: 20px;">
+          <h4 class="modal-title">{{bookings_edit_venue}}</h4>
+        </div>
+        <div class="modal-body" style="padding: 20px;">
+          <form #editForm="ngForm">
+
+            <div class="form-group">
+              <label>{{bookings_title}} <span class="text-danger">*</span></label>
+              <input class="form-control" type="text" #title='ngModel' name='title' [(ngModel)]='uptLT.title' required>
+            </div>
+
+            <div class="form-group">
+              <label>{{bookings_location}} <span class="text-danger">*</span></label>
+              <input class="form-control" type="text" #location='ngModel' name='location' [(ngModel)]='uptLT.location'
+                required>
+            </div>
+
+            <div class="form-group">
+              <label class="col-form-label">{{bookings_booking_start_time}}<span class="text-danger">*</span></label>
+              <input class="form-control" name="booking_start_time" id="booking_start_time"
+                [(ngModel)]="uptLT.booking_start_time" name="booking_start_time" #booking_start_time="ngModel"
+                type="time">
+            </div>
+
+            <div class="form-group">
+              <label class="col-form-label">{{bookings_booking_end_time}} <span class="text-danger">*</span></label>
+              <input class="form-control" name="booking_end_time" id="booking_end_time"
+                [(ngModel)]="uptLT.booking_end_time" name="booking_end_time" #booking_end_time="ngModel" type="time">
+            </div>
+
+            <div class="form-group">
+              <label>{{bookings_minimum_booking_time_hours}}<span class="text-danger m-l-5">*</span></label>
+              <select class="select form-control" [(ngModel)]="uptLT.minimum_booking_time" name="minimum_booking_time"
+                #minimum_booking_time="ngModel" required>
+                <option value="5:00">5:00</option>
+                <option value="6:00">6:00</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>{{bookings_maximum_booking_time_hours}}<span class="text-danger m-l-5">*</span></label>
+              <select class="select form-control" [(ngModel)]="uptLT.maximum_booking_time" name="maximum_booking_time"
+                #maximum_booking_time="ngModel" required>
+                <option value="5:00">5:00</option>
+                <option value="6:00">6:00</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <input class="form-control" type="hidden" [(ngModel)]="uptLT.id" name="id" #id="ngModel">
+            </div>
+
+            <div class="m-t-20 text-center">
+              <button class="btn btn-primary">{{bookings_update_venue}}</button>
+            </div>
+            <div *ngIf="addVenueValidation" class="alert alert-info m-t-10">
+              <strong>Warning!</strong> Must Fill all Mandatory Fields.
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

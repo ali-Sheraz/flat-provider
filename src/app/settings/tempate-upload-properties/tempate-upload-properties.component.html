@@ -1,0 +1,71 @@
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+
+<div class="container center">
+	<div class="row">
+		<div class="col-md-12">
+      <div class="col-md-12">
+        <button href="javascript:" class="btn btn-primary pull-right" style="margin-top: 2px; margin-right: -25px;" (click)="DownloadTemplate()" data-toggle="modal"
+         ><i class="fa fa-long-arrow-down"></i> Download Properties Template Master</button>
+      </div>
+
+			<h1 class="white">Custom File Upload For Properties</h1>
+			<p class="white">Please Download the Master Template, fill in all Properties and Upload File here.</p>
+		</div>
+	</div>
+	
+	<form name="upload" method="post" action="#" enctype="multipart/form-data" accept-charset="utf-8">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3 center">
+				<div class="btn-container">
+					<!--the three icons: default, ok file (img), error file (not an img)-->
+					<h1 class="imgupload"><i class="fa fa-file-image-o"></i></h1>
+					<h1 class="imgupload ok"><i class="fa fa-check"></i></h1>
+					<h1 class="imgupload stop"><i class="fa fa-times"></i></h1>
+					<!--this field changes dinamically displaying the filename we are trying to upload-->
+					<p id="namefile">Only Specified Template allowed! (.xlsx)</p>
+					<!--our custom btn which which stays under the actual one-->
+					<button type="button" id="btnup" class="btn btn-primary btn-lg">Browse from your PC</button>
+					<!--this is the actual file input, is set with opacity=0 beacause we wanna see our custom one-->
+					<input type="file" (change)="onFileUpload($event)" value="" name="fileup" id="fileup">
+				</div>
+			</div>
+		</div>
+			<!--additional fields-->
+
+      <div class="row" *ngIf="showErrorMsg">
+        <div class="col-xs-12">
+          <p class="alert alert-danger">
+            <strong>Failed!</strong> {{Results}}
+          </p>
+        </div>
+      </div>
+
+
+      <div class="row" *ngIf="uploadFile">
+        <div class="col-xs-12">
+          <p class="alert alert-info">
+            <strong>Uploading!</strong> {{Results}}
+          </p>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="showSuccessMsg">
+        <div class="col-xs-12">
+          <p class="alert alert-success">
+            <strong>Success!</strong> {{PropertyAdded}}
+          </p>
+        </div>
+      </div>
+
+
+		<div class="row">			
+			<div class="col-md-12">
+				<!--the defauld disabled btn and the actual one shown only if the three fields are valid-->
+				<button type="button" (click)="submit()" class="btn btn-default" id="fakebtn">Submit! <i class="fa fa-minus-circle"></i></button>
+			</div>
+		</div>
+	</form>
+</div>
+
+

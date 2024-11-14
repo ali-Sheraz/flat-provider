@@ -1,0 +1,1380 @@
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+<div class="content container-fluid">
+  <div class="row">
+    <div class="col-xs-8">
+      <h4 class="page-title">User Permissions</h4>
+      <p>Total: {{totalList}}</p>
+    </div>
+    <div class="col-xs-4 text-right m-b-30">
+      <a href="javascript:" class="btn btn-primary pull-right" (click)="addReset()"><i class="fa fa-plus"></i>
+        Add Permission</a>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="scan">
+    <div class="col-xs-12">
+      <p class="alert alert-success">
+        <strong>Scan!</strong> {{scanResults}}
+      </p>
+    </div>
+  </div>
+
+
+  <div class="row" *ngIf="showSuccessMsg">
+    <div class="col-xs-12">
+      <p class="alert alert-success">
+        <strong>Success!</strong> {{ChangesSavingResponse}}
+      </p>
+    </div>
+  </div>
+
+
+  <div class="modal-body">
+    <form #searchForm="ngForm" novalidate>
+      <div class="row filter-row">
+
+        <div class="col-sm-3 col-md-2 col-xs-6">
+          <div class="form-group form-focus select-focus">
+            <label class="control-label">Client</label>
+            <input type="text" class="form-control floating" [(ngModel)]="searchT.property_developer"
+              name="property_developer" #property_developer="ngModel" />
+          </div>
+        </div>
+
+        <div class="col-sm-3 col-md-2 col-xs-6">
+          <div class="form-group form-focus select-focus">
+            <label class="control-label">User Level</label>
+            <input type="text" class="form-control floating" [(ngModel)]="searchT.user_level" name="user_level"
+              #user_level="ngModel" />
+          </div>
+        </div>
+
+        <div class="wrapper">
+          <button class="btn btn-success pull-right">Clear Search</button>
+          <button class="btn btn-success pull-right" style="display:inline-block;margin-right:4px"
+            type="submit">Search</button>
+
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="table-responsive">
+        <table class="table table-striped custom-table" >
+          <thead>
+            <tr>
+              <th style="width: 25%">
+                Client
+              </th>
+              <th style="width: 20%">
+                User Level
+              </th>
+
+              <th style="width: 0.1%">
+                Action
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of rows">
+              <td>
+                <h4><a data-toggle="modal"
+                    (click)="onView(item)">{{item.property_developer}}</a></h4>
+              </td>
+              <td>{{item.user_level}}</td>
+
+              <td class="text-right">
+                <div class="dropdown">
+                  <a href="javascript:" class="action-icon dropdown-toggle" data-toggle="dropdown"
+                    aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                  <ul class="dropdown-menu pull-right">
+                    <li><a href="javascript:" title="Edit" (click)="onEdit(item)"><i class="fa fa-pencil m-r-5"></i>
+                        Edit</a></li>
+                    <li ><a href="javascript:"
+                        title="Delete" (click)="onDelete()"><i class="fa fa-trash-o m-r-5"></i>
+                        Delete</a></li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="12">
+       
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="view_modal" class="modal custom-modal fade" role="dialog" data-backdrop="static">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xs-12">
+              <h4 class="page-title"><a data-dismiss="modal" style="cursor:pointer;">User Permissions</a> /
+                {{viewEmp.id}}
+              </h4>
+            </div>
+            <div class="col-sm-4 text-right m-b-30">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="panel">
+
+
+                <div class="panel-body">
+                  <div class="project-title">
+                    <h3 class="panel-title"><b>{{viewEmp.property_developer}}</b></h3>
+                  </div>
+                  <p>{{viewEmp.user_level}}</p>
+                </div>
+
+
+              </div>
+
+              <div class="col-lg-12">
+                <div class="panel">
+                  <div class="panel-body">
+                    <h6 class="panel-title m-b-15">Details:</h6>
+                    <table class="table table-striped table-border">
+                      <tbody>
+                        <tr>
+                          <td>Reports And Stats:</td>
+                          <td class="text-right">{{viewEmp.dashboard}}</td>
+                        </tr>
+                        <tr>
+                          <td>Users:</td>
+                          <td class="text-right">{{viewEmp.users}}</td>
+                        </tr>
+                        <tr>
+                          <td>Work Orders:</td>
+                          <td class="text-right">{{viewEmp.work_orders}}</td>
+                        </tr>
+                        <tr>
+                          <td>Work Orders Add:</td>
+                          <td class="text-right">{{viewEmp.work_orders_add}}</td>
+                        </tr>
+                        <tr>
+                          <td>Work Orders Pending:</td>
+                          <td class="text-right">{{viewEmp.work_orders_pending}}</td>
+                        </tr>
+                        <tr>
+                          <td>Work Orders All:</td>
+                          <td class="text-right">{{viewEmp.work_orders_all}}</td>
+                        </tr>
+                        <tr>
+                          <td>Properties:</td>
+                          <td class="text-right">{{viewEmp.properties}}</td>
+                        </tr>
+                        <tr>
+                          <td>Residents:</td>
+                          <td class="text-right">{{viewEmp.residents}}</td>
+                        </tr>
+                        <tr>
+                          <td>CRM:</td>
+                          <td class="text-right">{{viewEmp.crm}}</td>
+                        </tr>
+                        <tr>
+                          <td>Clients:</td>
+                          <td class="text-right">{{viewEmp.property_developers}}</td>
+                        </tr>
+                        <tr>
+                          <td>Contractors:</td>
+                          <td class="text-right">{{viewEmp.contractors}}</td>
+                        </tr>
+                        <tr>
+                          <td>Payments:</td>
+                          <td class="text-right">{{viewEmp.payments}}</td>
+                        </tr>
+                        <tr>
+                          <td>Bookings:</td>
+                          <td class="text-right">{{viewEmp.bookings}}</td>
+                        </tr>
+                        <tr>
+                          <td>Announcements:</td>
+                          <td class="text-right">{{viewEmp.announcements}}</td>
+                        </tr>
+                        <tr>
+                          <td>Services:</td>
+                          <td class="text-right">{{viewEmp.services}}</td>
+                        </tr>
+                        <tr>
+                          <td>Guard House:</td>
+                          <td class="text-right">{{viewEmp.guard_house}}</td>
+                        </tr>
+                        <tr>
+                          <td>CMS:</td>
+                          <td class="text-right">{{viewEmp.cms}}</td>
+                        </tr>
+                        <tr>
+                          <td>Leasing & Tenancy:</td>
+                          <td class="text-right">{{viewEmp.leasing_and_tenancy}}</td>
+                        </tr>
+                        <tr>
+                          <td>Agents:</td>
+                          <td class="text-right">{{viewEmp.agents}}</td>
+                        </tr>
+                        <tr>
+                          <td>Documentation:</td>
+                          <td class="text-right">{{viewEmp.documentation}}</td>
+                        </tr>
+                        <tr>
+                          <td>Settings:</td>
+                          <td class="text-right">{{viewEmp.settings}}</td>
+                        </tr>
+
+                        <br>
+                        <tr>
+                          <h1 class="panel-title m-b-15">Module Permissions:</h1>
+                        </tr>
+
+                        <tr>
+                          <td>Reports And Stats:</td>
+                        </tr>
+                        <tr>
+                          <td>View:</td>
+                          <td class="text-right">{{viewEmp.reports_and_stats_view}}</td>
+                          <td>Create:</td>
+                          <td class="text-right">{{viewEmp.reports_and_stats_create}}</td>
+                          <td>Update:</td>
+                          <td class="text-right">{{viewEmp.reports_and_stats_update}}</td>
+                          <td>Delete:</td>
+                          <td class="text-right">{{viewEmp.reports_and_stats_delete}}</td>
+                        </tr>
+                        <tr>
+                          <td>Users:</td>
+                        </tr>
+                        <tr>
+                          <td>View:</td>
+                          <td class="text-right">{{viewEmp.users_view}}</td>
+                          <td>Create:</td>
+                          <td class="text-right">{{viewEmp.users_create}}</td>
+                          <td>Update:</td>
+                          <td class="text-right">{{viewEmp.users_update}}</td>
+                          <td>Delete:</td>
+                          <td class="text-right">{{viewEmp.users_delete}}</td>
+                        </tr>
+                        <tr>
+                          <td>Work Orders:</td>
+                        </tr>
+                        <tr>
+                          <td>View:</td>
+                          <td class="text-right">{{viewEmp.work_orders_view}}</td>
+                          <td>Create:</td>
+                          <td class="text-right">{{viewEmp.work_orders_create}}</td>
+                          <td>Update:</td>
+                          <td class="text-right">{{viewEmp.work_orders_update}}</td>
+                          <td>Delete:</td>
+                          <td class="text-right">{{viewEmp.work_orders_delete}}</td>
+                        </tr>
+                        <tr>
+                          <td>Properties:</td>
+                        </tr>
+                        <tr>
+                          <td>View:</td>
+                          <td class="text-right">{{viewEmp.properties_view}}</td>
+                          <td>Create:</td>
+                          <td class="text-right">{{viewEmp.properties_create}}</td>
+                          <td>Update:</td>
+                          <td class="text-right">{{viewEmp.properties_update}}</td>
+                          <td>Delete:</td>
+                          <td class="text-right">{{viewEmp.properties_delete}}</td>
+                        </tr>
+                        <tr>
+                          <td>Residents:</td>
+                        </tr>
+                        <tr>
+                          <td>View:</td>
+                          <td class="text-right">{{viewEmp.residents_view}}</td>
+                          <td>Create:</td>
+                          <td class="text-right">{{viewEmp.residents_create}}</td>
+                          <td>Update:</td>
+                          <td class="text-right">{{viewEmp.residents_update}}</td>
+                          <td>Delete:</td>
+                          <td class="text-right">{{viewEmp.residents_delete}}</td>
+                        </tr>
+                        <tr>
+                          <td>CRM:</td>
+                        </tr>
+                        <tr>
+                          <td>View:</td>
+                          <td class="text-right">{{viewEmp.crm_view}}</td>
+                          <td>Create:</td>
+                          <td class="text-right">{{viewEmp.crm_create}}</td>
+                          <td>Update:</td>
+                          <td class="text-right">{{viewEmp.crm_update}}</td>
+                          <td>Delete:</td>
+                          <td class="text-right">{{viewEmp.crm_delete}}</td>
+                        </tr>
+                        <tr>
+                          <td>Clients:</td>
+                        </tr>
+                        <tr>
+                          <td>View:</td>
+                          <td class="text-right">{{viewEmp.pd_view}}</td>
+                          <td>Create:</td>
+                          <td class="text-right">{{viewEmp.pd_create}}</td>
+                          <td>Update:</td>
+                          <td class="text-right">{{viewEmp.pd_update}}</td>
+                          <td>Delete:</td>
+                          <td class="text-right">{{viewEmp.pd_delete}}</td>
+                        </tr>
+                        <tr>
+                          <td>Contractors:</td>
+                        </tr>
+                        <tr>
+                          <td>View:</td>
+                          <td class="text-right">{{viewEmp.contractors_view}}</td>
+                          <td>Create:</td>
+                          <td class="text-right">{{viewEmp.contractors_create}}</td>
+                          <td>Update:</td>
+                          <td class="text-right">{{viewEmp.contractors_update}}</td>
+                          <td>Delete:</td>
+                          <td class="text-right">{{viewEmp.contractors_delete}}</td>
+                        </tr>
+                        <tr>
+                          <td>Payments:</td>
+                        </tr>
+                        <tr>
+                          <td>View:</td>
+                          <td class="text-right">{{viewEmp.payments_view}}</td>
+                          <td>Create:</td>
+                          <td class="text-right">{{viewEmp.payments_create}}</td>
+                          <td>Update:</td>
+                          <td class="text-right">{{viewEmp.payments_update}}</td>
+                          <td>Delete:</td>
+                          <td class="text-right">{{viewEmp.payments_delete}}</td>
+                        </tr>
+                        <tr>
+                          <td>Bookings:</td>
+                        </tr>
+                        <tr>
+                          <td>View:</td>
+                          <td class="text-right">{{viewEmp.bookings_view}}</td>
+                          <td>Create:</td>
+                          <td class="text-right">{{viewEmp.bookings_create}}</td>
+                          <td>Update:</td>
+                          <td class="text-right">{{viewEmp.bookings_update}}</td>
+                          <td>Delete:</td>
+                          <td class="text-right">{{viewEmp.bookings_delete}}</td>
+                        </tr>
+                        <tr>
+                          <td>Announcements:</td>
+                        </tr>
+                        <tr>
+                          <td>View:</td>
+                          <td class="text-right">{{viewEmp.announcements_view}}</td>
+                          <td>Create:</td>
+                          <td class="text-right">{{viewEmp.announcements_create}}</td>
+                          <td>Update:</td>
+                          <td class="text-right">{{viewEmp.announcements_update}}</td>
+                          <td>Delete:</td>
+                          <td class="text-right">{{viewEmp.announcements_delete}}</td>
+                        </tr>
+                        <tr>
+                          <td>Services:</td>
+                        </tr>
+                        <tr>
+                          <td>View:</td>
+                          <td class="text-right">{{viewEmp.services_view}}</td>
+                          <td>Create:</td>
+                          <td class="text-right">{{viewEmp.services_create}}</td>
+                          <td>Update:</td>
+                          <td class="text-right">{{viewEmp.services_update}}</td>
+                          <td>Delete:</td>
+                          <td class="text-right">{{viewEmp.services_delete}}</td>
+                        </tr>
+                        <tr>
+                          <td>Guard House:</td>
+                        </tr>
+                        <tr>
+                          <td>View:</td>
+                          <td class="text-right">{{viewEmp.guard_house_view}}</td>
+                          <td>Create:</td>
+                          <td class="text-right">{{viewEmp.guard_house_create}}</td>
+                          <td>Update:</td>
+                          <td class="text-right">{{viewEmp.guard_house_update}}</td>
+                          <td>Delete:</td>
+                          <td class="text-right">{{viewEmp.guard_house_delete}}</td>
+                        </tr>
+                        <tr>
+                          <td>CMS:</td>
+                        </tr>
+                        <tr>
+                          <td>View:</td>
+                          <td class="text-right">{{viewEmp.cms_view}}</td>
+                          <td>Create:</td>
+                          <td class="text-right">{{viewEmp.cms_create}}</td>
+                          <td>Update:</td>
+                          <td class="text-right">{{viewEmp.cms_update}}</td>
+                          <td>Delete:</td>
+                          <td class="text-right">{{viewEmp.cms_delete}}</td>
+                        </tr>
+                        <tr>
+                          <td>Leasing & Tenancy:</td>
+                        </tr>
+                        <tr>
+                          <td>View:</td>
+                          <td class="text-right">{{viewEmp.leasing_and_tenancy_view}}</td>
+                          <td>Create:</td>
+                          <td class="text-right">{{viewEmp.leasing_and_tenancy_create}}</td>
+                          <td>Update:</td>
+                          <td class="text-right">{{viewEmp.leasing_and_tenancy_update}}</td>
+                          <td>Delete:</td>
+                          <td class="text-right">{{viewEmp.leasing_and_tenancy_delete}}</td>
+                        </tr>
+                        <tr>
+                          <td>Agents:</td>
+                        </tr>
+                        <tr>
+                          <td>View:</td>
+                          <td class="text-right">{{viewEmp.agents_view}}</td>
+                          <td>Create:</td>
+                          <td class="text-right">{{viewEmp.agents_create}}</td>
+                          <td>Update:</td>
+                          <td class="text-right">{{viewEmp.agents_update}}</td>
+                          <td>Delete:</td>
+                          <td class="text-right">{{viewEmp.agents_delete}}</td>
+                        </tr>
+                        <tr>
+                          <td>Documentation:</td>
+                        </tr>
+                        <tr>
+                          <td>View:</td>
+                          <td class="text-right">{{viewEmp.documentation_view}}</td>
+                          <td>Create:</td>
+                          <td class="text-right">{{viewEmp.documentation_create}}</td>
+                          <td>Update:</td>
+                          <td class="text-right">{{viewEmp.documentation_update}}</td>
+                          <td>Delete:</td>
+                          <td class="text-right">{{viewEmp.documentation_delete}}</td>
+                        </tr>
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+
+
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div id="add_modal" class="modal custom-modal fade" role="dialog" data-backdrop="static">
+  <div class="modal-dialog">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <div class="modal-content modal-md">
+      <!-- <div class="modal-header">
+        <h4 class="modal-title">Add Permission</h4>
+      </div> -->
+      <div class="modal-body" style="padding: 20px;">
+        <form #saveForm="ngForm" novalidate>
+          <div class="row filter-row">
+
+
+            <div class="row">
+              <h1 style="font-weight: bold;padding:20px;" class="panel-title m-b-20">Module Access</h1>
+              <div class="panel">
+                <ul class="list-group">
+
+
+
+                  <li class="list-group-item">
+                    Client<span class="text-danger m-l-5">*</span>
+                    <div class="material-switch pull-right">
+                      <select class="material-switch pull-right" 
+                        [(ngModel)]="saveT.property_developer" name="property_developer" #property_developer="ngModel"
+                        required>
+                        <option value=""></option>
+                        <option *ngFor="let AllPd of AllPd">
+                          {{AllPd}}
+                        </option>
+                      </select>
+                    </div>
+                  </li>
+
+                  <li class="list-group-item">
+                    User Level<span class="text-danger m-l-5">*</span>
+                    <div class="material-switch pull-right">
+                      <select class="material-switch pull-right" [(ngModel)]="saveT.user_level" name="user_level"
+                        #user_level="ngModel" required>
+                        <option value=""></option>
+                        <option *ngFor="let userLevels of userLevels">
+                          {{userLevels}}
+                        </option>
+                      </select>
+                    </div>
+                  </li>
+
+                  <li class="list-group-item">
+                    Reports And Stats
+                    <div class="material-switch pull-right">
+                      <input id="dashboard_module" type="checkbox" [(ngModel)]="saveT.dashboard" name="dashboard"
+                        #dashboard="ngModel" />
+                      <label for="dashboard_module" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    Users
+                    <div class="material-switch pull-right">
+                      <input id="users_module" type="checkbox" [(ngModel)]="saveT.users" name="users"
+                        #users="ngModel" />
+                      <label for="users_module" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    Work Orders
+                    <div class="material-switch pull-right">
+                      <input id="work_orders_module" type="checkbox" [(ngModel)]="saveT.work_orders" name="work_orders"
+                        #work_orders="ngModel" />
+                      <label for="work_orders_module" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    -Add New Work Orders
+                    <div class="material-switch pull-right">
+                      <input id="work_orders_add" type="checkbox" [(ngModel)]="saveT.work_orders_add"
+                        name="work_orders_add" #work_orders_add="ngModel" />
+                      <label for="work_orders_add" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    -Pending Work Orders
+                    <div class="material-switch pull-right">
+                      <input id="work_orders_pending" type="checkbox" [(ngModel)]="saveT.work_orders_pending"
+                        name="work_orders_pending" #work_orders_pending="ngModel" />
+                      <label for="work_orders_pending" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    -All Work Orders
+                    <div class="material-switch pull-right">
+                      <input id="work_orders_all" type="checkbox" [(ngModel)]="saveT.work_orders_all"
+                        name="work_orders_all" #work_orders_all="ngModel" />
+                      <label for="work_orders_all" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    Properties
+                    <div class="material-switch pull-right">
+                      <input id="properties_module" type="checkbox" [(ngModel)]="saveT.properties" name="properties"
+                        #properties="ngModel" />
+                      <label for="properties_module" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    - Properties
+                    <div class="material-switch pull-right">
+                      <input id="properties_property" type="checkbox" [(ngModel)]="saveT.properties_property"
+                        name="properties_property" #properties_property="ngModel" />
+                      <label for="properties_property" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    - Documents
+                    <div class="material-switch pull-right">
+                      <input id="properties_documents" type="checkbox" [(ngModel)]="saveT.properties_documents"
+                        name="properties_documents" #properties_documents="ngModel" />
+                      <label for="properties_documents" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    Residents
+                    <div class="material-switch pull-right">
+                      <input id="residents_module" type="checkbox" [(ngModel)]="saveT.residents" name="residents"
+                        #residents="ngModel" />
+                      <label for="residents_module" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    - All Residents
+                    <div class="material-switch pull-right">
+                      <input id="residents__all" type="checkbox" [(ngModel)]="saveT.residents__all"
+                        name="residents__all" #residents__all="ngModel" />
+                      <label for="residents__all" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    - All Lead Residents
+                    <div class="material-switch pull-right">
+                      <input id="residents_lead" type="checkbox" [(ngModel)]="saveT.residents_lead"
+                        name="residents_lead" #residents_lead="ngModel" />
+                      <label for="residents_lead" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    CRM
+                    <div class="material-switch pull-right">
+                      <input id="crm_module" type="checkbox" [(ngModel)]="saveT.crm" name="crm" #crm="ngModel" />
+                      <label for="crm_module" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    - Add New CRM
+                    <div class="material-switch pull-right">
+                      <input id="crm_add" type="checkbox" [(ngModel)]="saveT.crm_add" name="crm_add"
+                        #crm_add="ngModel" />
+                      <label for="crm_add" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    - Pending CRM
+                    <div class="material-switch pull-right">
+                      <input id="crm_pending" type="checkbox" [(ngModel)]="saveT.crm_pending" name="crm_pending"
+                        #crm_pending="ngModel" />
+                      <label for="crm_pending" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    - All CRM
+                    <div class="material-switch pull-right">
+                      <input id="crm_all" type="checkbox" [(ngModel)]="saveT.crm_all" name="crm_all"
+                        #crm_all="ngModel" />
+                      <label for="crm_all" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    - CRM Reports
+                    <div class="material-switch pull-right">
+                      <input id="crm_reports" type="checkbox" [(ngModel)]="saveT.crm_reports" name="crm_reports"
+                        #crm_reports="ngModel" />
+                      <label for="crm_reports" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    Clients
+                    <div class="material-switch pull-right">
+                      <input id="property_developers_module" type="checkbox" [(ngModel)]="saveT.property_developers"
+                        name="property_developers" #property_developers="ngModel" />
+                      <label for="property_developers_module" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    Contractors
+                    <div class="material-switch pull-right">
+                      <input id="contractors_module" type="checkbox" [(ngModel)]="saveT.contractors" name="contractors"
+                        #contractors="ngModel" />
+                      <label for="contractors_module" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    - All Contractors
+                    <div class="material-switch pull-right">
+                      <input id="contractors_all" type="checkbox" [(ngModel)]="saveT.contractors_all"
+                        name="contractors_all" #contractors_all="ngModel" />
+                      <label for="contractors_all" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    - My Contractors
+                    <div class="material-switch pull-right">
+                      <input id="contractors_my" type="checkbox" [(ngModel)]="saveT.contractors_my"
+                        name="contractors_my" #contractors_my="ngModel" />
+                      <label for="contractors_my" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    Payments
+                    <div class="material-switch pull-right">
+                      <input id="payments_module" type="checkbox" [(ngModel)]="saveT.payments" name="payments"
+                        #payments="ngModel" />
+                      <label for="payments_module" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    - All Payments
+                    <div class="material-switch pull-right">
+                      <input id="all_payments" type="checkbox" [(ngModel)]="saveT.all_payments" name="all_payments"
+                        #all_payments="ngModel" />
+                      <label for="all_payments" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    - eGHL Dashboard
+                    <div class="material-switch pull-right">
+                      <input id="eghl_payments" type="checkbox" [(ngModel)]="saveT.eghl_payments" name="eghl_payments"
+                        #eghl_payments="ngModel" />
+                      <label for="eghl_payments" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    - Bukku Accounting
+                    <div class="material-switch pull-right">
+                      <input id="payments_bukku_accounting" type="checkbox"
+                        [(ngModel)]="saveT.payments_bukku_accounting" name="payments_bukku_accounting"
+                        #payments_bukku_accounting="ngModel" />
+                      <label for="payments_bukku_accounting" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    Bookings
+                    <div class="material-switch pull-right">
+                      <input id="bookings_module" type="checkbox" [(ngModel)]="saveT.bookings" name="bookings"
+                        #bookings="ngModel" />
+                      <label for="bookings_module" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    - Venues
+                    <div class="material-switch pull-right">
+                      <input id="bookings_venues" type="checkbox" [(ngModel)]="saveT.bookings_venues"
+                        name="bookings_venues" #bookings_venues="ngModel" />
+                      <label for="bookings_venues" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    - Bookings
+                    <div class="material-switch pull-right">
+                      <input id="bookings_booking" type="checkbox" [(ngModel)]="saveT.bookings_booking"
+                        name="bookings_booking" #bookings_booking="ngModel" />
+                      <label for="bookings_booking" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    Announcements
+                    <div class="material-switch pull-right">
+                      <input id="announcements_module" type="checkbox" [(ngModel)]="saveT.announcements"
+                        name="announcements" #announcements="ngModel" />
+                      <label for="announcements_module" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    Services
+                    <div class="material-switch pull-right">
+                      <input id="services_module" type="checkbox" [(ngModel)]="saveT.services" name="services"
+                        #services="ngModel" />
+                      <label for="services_module" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    - Category Services
+                    <div class="material-switch pull-right">
+                      <input id="category_services" type="checkbox" [(ngModel)]="saveT.category_services"
+                        name="category_services" #category_services="ngModel" />
+                      <label for="category_services" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    - Sub Category Services
+                    <div class="material-switch pull-right">
+                      <input id="sub_services" type="checkbox" [(ngModel)]="saveT.sub_services" name="sub_services"
+                        #sub_services="ngModel" />
+                      <label for="sub_services" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    - Services
+                    <div class="material-switch pull-right">
+                      <input id="services_service" type="checkbox" [(ngModel)]="saveT.services_service"
+                        name="services_service" #services_service="ngModel" />
+                      <label for="services_service" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    Guard House
+                    <div class="material-switch pull-right">
+                      <input id="guard_house_module" type="checkbox" [(ngModel)]="saveT.guard_house" name="guard_house"
+                        #guard_house="ngModel" />
+                      <label for="guard_house_module" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    - Visitor Management
+                    <div class="material-switch pull-right">
+                      <input id="visitor_guard_house" type="checkbox" [(ngModel)]="saveT.visitor_guard_house"
+                        name="visitor_guard_house" #visitor_guard_house="ngModel" />
+                      <label for="visitor_guard_house" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    CMS
+                    <div class="material-switch pull-right">
+                      <input id="cms_module" type="checkbox" [(ngModel)]="saveT.cms" name="cms" #cms="ngModel" />
+                      <label for="cms_module" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    - Menue CMS
+                    <div class="material-switch pull-right">
+                      <input id="menue_cms" type="checkbox" [(ngModel)]="saveT.menue_cms" name="menue_cms"
+                        #menue_cms="ngModel" />
+                      <label for="menue_cms" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    - Sub Menue CMS
+                    <div class="material-switch pull-right">
+                      <input id="sub_menue_cms" type="checkbox" [(ngModel)]="saveT.sub_menue_cms" name="sub_menue_cms"
+                        #sub_menue_cms="ngModel" />
+                      <label for="sub_menue_cms" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    - Contnet Management CMS
+                    <div class="material-switch pull-right">
+                      <input id="content_cms" type="checkbox" [(ngModel)]="saveT.content_cms" name="content_cms"
+                        #content_cms="ngModel" />
+                      <label for="content_cms" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    Leasing & Tenancy
+                    <div class="material-switch pull-right">
+                      <input id="leasing_and_tenancy_module" type="checkbox" [(ngModel)]="saveT.leasing_and_tenancy"
+                        name="leasing_and_tenancy" #leasing_and_tenancy="ngModel" />
+                      <label for="leasing_and_tenancy_module" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    - Add Leasing & Tenancy
+                    <div class="material-switch pull-right">
+                      <input id="leasing_and_tenancy_add" type="checkbox" [(ngModel)]="saveT.leasing_and_tenancy_add"
+                        name="leasing_and_tenancy_add" #leasing_and_tenancy_add="ngModel" />
+                      <label for="leasing_and_tenancy_add" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    - Penidng Leasing & Tenancy
+                    <div class="material-switch pull-right">
+                      <input id="leasing_and_tenancy_pending" type="checkbox"
+                        [(ngModel)]="saveT.leasing_and_tenancy_pending" name="leasing_and_tenancy_pending"
+                        #leasing_and_tenancy_pending="ngModel" />
+                      <label for="leasing_and_tenancy_pending" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    - All Leasing & Tenancy
+                    <div class="material-switch pull-right">
+                      <input id="leasing_and_tenancy_all" type="checkbox" [(ngModel)]="saveT.leasing_and_tenancy_all"
+                        name="leasing_and_tenancy_all" #leasing_and_tenancy_all="ngModel" />
+                      <label for="leasing_and_tenancy_all" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    - PLTS Reports
+                    <div class="material-switch pull-right">
+                      <input id="plts_report" type="checkbox" [(ngModel)]="saveT.plts_report" name="plts_report"
+                        #plts_report="ngModel" />
+                      <label for="plts_report" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    PLTS Defects
+                    <div class="material-switch pull-right">
+                      <input id="plts_defects_module" type="checkbox" [(ngModel)]="saveT.plts_defects"
+                        name="plts_defects" #plts_defects="ngModel" />
+                      <label for="plts_defects_module" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    - Add PLTS Defects
+                    <div class="material-switch pull-right">
+                      <input id="plts_defects_add" type="checkbox" [(ngModel)]="saveT.plts_defects_add"
+                        name="plts_defects_add" #plts_defects_add="ngModel" />
+                      <label for="plts_defects_add" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    - Pending PLTS Defects
+                    <div class="material-switch pull-right">
+                      <input id="plts_defects_pending" type="checkbox" [(ngModel)]="saveT.plts_defects_pending"
+                        name="plts_defects_pending" #plts_defects_pending="ngModel" />
+                      <label for="plts_defects_pending" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    - All PLTS Defects
+                    <div class="material-switch pull-right">
+                      <input id="plts_defects_all" type="checkbox" [(ngModel)]="saveT.plts_defects_all"
+                        name="plts_defects_all" #plts_defects_all="ngModel" />
+                      <label for="plts_defects_all" class="label-success"></label>
+                    </div>
+                  </li>
+
+                  <li class="list-group-item">
+                    Agents
+                    <div class="material-switch pull-right">
+                      <input id="agents_module" type="checkbox" [(ngModel)]="saveT.agents" name="agents"
+                        #agents="ngModel" />
+                      <label for="agents_module" class="label-success"></label>
+                    </div>
+                  </li>
+
+                  <li class="list-group-item">
+                    Documentation
+                    <div class="material-switch pull-right">
+                      <input id="documentation_module" type="checkbox" [(ngModel)]="saveT.documentation"
+                        name="documentation" #documentation="ngModel" />
+                      <label for="documentation_module" class="label-success"></label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    Settings
+                    <div class="material-switch pull-right">
+                      <input id="settings_module" type="checkbox" [(ngModel)]="saveT.settings" name="settings"
+                        #settings="ngModel" />
+                      <label for="settings_module" class="label-success"></label>
+                    </div>
+                  </li>
+                </ul>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input class="form-control" type="hidden" [(ngModel)]="saveT.id" name="id" #id="ngModel">
+                  </div>
+                </div>
+              </div>
+
+
+              <h1 style="font-weight: bold;" class="panel-title m-b-20">Module Permissions</h1>
+
+              <div class="row">
+                <table class="table custom-table">
+                  <thead>
+                    <tr>
+                      <th>Modules</th>
+                      <th class="text-center">View</th>
+                      <th class="text-center">Create</th>
+                      <th class="text-center">Edit</th>
+                      <th class="text-center">Delete</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Reports And Stats</td>
+                      <td class="text-center">
+                        <input type="checkbox" name="reports_and_stats_view" [(ngModel)]="saveT.reports_and_stats_view"
+                          checked="" #reports_and_stats_view="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="reports_and_stats_create"
+                          [(ngModel)]="saveT.reports_and_stats_create" checked="" #reports_and_stats_create="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="reports_and_stats_update"
+                          [(ngModel)]="saveT.reports_and_stats_update" checked="" #reports_and_stats_update="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="reports_and_stats_delete"
+                          [(ngModel)]="saveT.reports_and_stats_delete" checked="" #reports_and_stats_delete="ngModel">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Users</td>
+                      <td class="text-center">
+                        <input type="checkbox" name="users_view" [(ngModel)]="saveT.users_view" checked=""
+                          #users_view="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="users_create" [(ngModel)]="saveT.users_create" checked=""
+                          #users_create="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="users_update" [(ngModel)]="saveT.users_update" checked=""
+                          #users_update="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="users_delete" [(ngModel)]="saveT.users_delete" checked=""
+                          #users_delete="ngModel">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Work Orders</td>
+                      <td class="text-center">
+                        <input type="checkbox" name="work_orders_view" [(ngModel)]="saveT.work_orders_view" checked=""
+                          #work_orders_view="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="work_orders_create" [(ngModel)]="saveT.work_orders_create"
+                          checked="" #work_orders_create="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="work_orders_update" [(ngModel)]="saveT.work_orders_update"
+                          checked="" #work_orders_update="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="work_orders_delete" [(ngModel)]="saveT.work_orders_delete"
+                          checked="" #work_orders_delete="ngModel">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Properties</td>
+                      <td class="text-center">
+                        <input type="checkbox" name="properties_view" [(ngModel)]="saveT.properties_view" checked=""
+                          #properties_view="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="properties_create" [(ngModel)]="saveT.properties_create" checked=""
+                          #properties_create="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="properties_update" [(ngModel)]="saveT.properties_update" checked=""
+                          #properties_update="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="properties_delete" [(ngModel)]="saveT.properties_delete" checked=""
+                          #properties_delete="ngModel">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Residents</td>
+                      <td class="text-center">
+                        <input type="checkbox" name="residents_view" [(ngModel)]="saveT.residents_view" checked=""
+                          #residents_view="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="residents_create" [(ngModel)]="saveT.residents_create" checked=""
+                          #residents_create="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="residents_update" [(ngModel)]="saveT.residents_update" checked=""
+                          #residents_update="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="residents_delete" [(ngModel)]="saveT.residents_delete" checked=""
+                          #residents_delete="ngModel">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>CRM</td>
+                      <td class="text-center">
+                        <input type="checkbox" name="crm_view" [(ngModel)]="saveT.crm_view" checked=""
+                          #crm_view="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="crm_create" [(ngModel)]="saveT.crm_create" checked=""
+                          #crm_create="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="crm_update" [(ngModel)]="saveT.crm_update" checked=""
+                          #crm_update="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="crm_delete" [(ngModel)]="saveT.crm_delete" checked=""
+                          #crm_delete="ngModel">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Clients</td>
+                      <td class="text-center">
+                        <input type="checkbox" name="pd_view" [(ngModel)]="saveT.pd_view" checked="" #pd_view="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="pd_create" [(ngModel)]="saveT.pd_create" checked=""
+                          #pd_create="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="pd_update" [(ngModel)]="saveT.pd_update" checked=""
+                          #pd_update="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="pd_delete" [(ngModel)]="saveT.pd_delete" checked=""
+                          #pd_delete="ngModel">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Contractors</td>
+                      <td class="text-center">
+                        <input type="checkbox" name="contractors_view" [(ngModel)]="saveT.contractors_view" checked=""
+                          #contractors_view="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="contractors_create" [(ngModel)]="saveT.contractors_create"
+                          checked="" #contractors_create="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="contractors_update" [(ngModel)]="saveT.contractors_update"
+                          checked="" #contractors_update="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="contractors_delete" [(ngModel)]="saveT.contractors_delete"
+                          checked="" #contractors_delete="ngModel">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Payments</td>
+                      <td class="text-center">
+                        <input type="checkbox" name="payments_view" [(ngModel)]="saveT.payments_view" checked=""
+                          #payments_view="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="payments_create" [(ngModel)]="saveT.payments_create" checked=""
+                          #payments_create="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="payments_update" [(ngModel)]="saveT.payments_update" checked=""
+                          #payments_update="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="payments_delete" [(ngModel)]="saveT.payments_delete" checked=""
+                          #payments_delete="ngModel">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Bookings</td>
+                      <td class="text-center">
+                        <input type="checkbox" name="bookings_view" [(ngModel)]="saveT.bookings_view" checked=""
+                          #bookings_view="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="bookings_create" [(ngModel)]="saveT.bookings_create" checked=""
+                          #bookings_create="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="bookings_update" [(ngModel)]="saveT.bookings_update" checked=""
+                          #bookings_update="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="bookings_delete" [(ngModel)]="saveT.bookings_delete" checked=""
+                          #bookings_delete="ngModel">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Announcements</td>
+                      <td class="text-center">
+                        <input type="checkbox" name="announcements_view" [(ngModel)]="saveT.announcements_view"
+                          checked="" #announcements_view="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="announcements_create" [(ngModel)]="saveT.announcements_create"
+                          checked="" #announcements_create="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="announcements_update" [(ngModel)]="saveT.announcements_update"
+                          checked="" #announcements_update="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="announcements_delete" [(ngModel)]="saveT.announcements_delete"
+                          checked="" #announcements_delete="ngModel">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Services</td>
+                      <td class="text-center">
+                        <input type="checkbox" name="services_view" [(ngModel)]="saveT.services_view" checked=""
+                          #services_view="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="services_create" [(ngModel)]="saveT.services_create" checked=""
+                          #services_create="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="services_update" [(ngModel)]="saveT.services_update" checked=""
+                          #services_update="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="services_delete" [(ngModel)]="saveT.services_delete" checked=""
+                          #services_delete="ngModel">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Guard House</td>
+                      <td class="text-center">
+                        <input type="checkbox" name="guard_house_view" [(ngModel)]="saveT.guard_house_view" checked=""
+                          #guard_house_view="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="guard_house_create" [(ngModel)]="saveT.guard_house_create"
+                          checked="" #guard_house_create="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="guard_house_update" [(ngModel)]="saveT.guard_house_update"
+                          checked="" #guard_house_update="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="guard_house_delete" [(ngModel)]="saveT.guard_house_delete"
+                          checked="" #guard_house_delete="ngModel">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>CMS</td>
+                      <td class="text-center">
+                        <input type="checkbox" name="cms_view" [(ngModel)]="saveT.cms_view" checked=""
+                          #cms_view="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="cms_create" [(ngModel)]="saveT.cms_create" checked=""
+                          #cms_create="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="cms_update" [(ngModel)]="saveT.cms_update" checked=""
+                          #cms_update="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="cms_delete" [(ngModel)]="saveT.cms_delete" checked=""
+                          #cms_delete="ngModel">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Leasing & Tenancy</td>
+                      <td class="text-center">
+                        <input type="checkbox" name="leasing_and_tenancy_view"
+                          [(ngModel)]="saveT.leasing_and_tenancy_view" checked="" #leasing_and_tenancy_view="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="leasing_and_tenancy_create"
+                          [(ngModel)]="saveT.leasing_and_tenancy_create" checked=""
+                          #leasing_and_tenancy_create="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="leasing_and_tenancy_update"
+                          [(ngModel)]="saveT.leasing_and_tenancy_update" checked=""
+                          #leasing_and_tenancy_update="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="leasing_and_tenancy_delete"
+                          [(ngModel)]="saveT.leasing_and_tenancy_delete" checked=""
+                          #leasing_and_tenancy_delete="ngModel">
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>PLTS Defects</td>
+                      <td class="text-center">
+                        <input type="checkbox" name="plts_defects_view" [(ngModel)]="saveT.plts_defects_view" checked=""
+                          #plts_defects_view="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="plts_defects_create" [(ngModel)]="saveT.plts_defects_create"
+                          checked="" #plts_defects_create="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="plts_defects_update" [(ngModel)]="saveT.plts_defects_update"
+                          checked="" #plts_defects_update="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="plts_defects_delete" [(ngModel)]="saveT.plts_defects_delete"
+                          checked="" #plts_defects_delete="ngModel">
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>Agents</td>
+                      <td class="text-center">
+                        <input type="checkbox" name="agents_view" [(ngModel)]="saveT.agents_view" checked=""
+                          #agents_view="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="agents_create" [(ngModel)]="saveT.agents_create" checked=""
+                          #agents_create="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="agents_update" [(ngModel)]="saveT.agents_update" checked=""
+                          #agents_update="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="agents_delete" [(ngModel)]="saveT.agents_delete" checked=""
+                          #agents_delete="ngModel">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Documentation</td>
+                      <td class="text-center">
+                        <input type="checkbox" name="documentation_view" [(ngModel)]="saveT.documentation_view"
+                          checked="" #documentation_view="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="documentation_create" [(ngModel)]="saveT.documentation_create"
+                          checked="" #documentation_create="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="documentation_update" [(ngModel)]="saveT.documentation_update"
+                          checked="" #documentation_update="ngModel">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="documentation_delete" [(ngModel)]="saveT.documentation_delete"
+                          checked="" #documentation_delete="ngModel">
+                      </td>
+                    </tr>
+
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div *ngIf="addEmployeeValidation" class="alert alert-info m-t-10">
+              <strong>Warning!</strong> Must Fill all Mandatory Fields.
+            </div>
+
+            <div class="m-t-20 text-center">
+              <button class="btn btn-primary" type="submit">Save Changes</button>
+            </div>
+
+            <div class="row" *ngIf="showErrorMsg">
+              <div class="col-xs-12">
+                <p class="alert alert-danger">
+                  <strong>Failed!</strong> {{ChangesSavingResponse}}
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div id="delete" class="modal custom-modal fade" role="dialog" data-backdrop="static">
+  <div class="modal-dialog">
+    <div class="modal-content modal-md">
+      <div class="modal-header">
+        <h4 class="modal-title">Delete</h4>
+      </div>
+      <form (ngSubmit)="deleteConfirmation()">
+        <div class="modal-body card-box">
+          <p>Are you sure you want to DELETE this??</p>
+
+          <div class="m-t-20"> <a href="javascript:" class="btn btn-warning" data-dismiss="modal">No</a>
+            <button type="submit" style="margin: 5px;" class="btn btn-danger">Delete</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="delete_result" class="modal custom-modal fade" role="dialog" data-backdrop="static">
+  <div class="modal-dialog">
+    <div class="modal-content modal-md">
+      <div class="modal-header">
+        <h4 class="modal-title">Delete</h4>
+      </div>
+      <form (ngSubmit)="deleteResult()">
+        <div class="modal-body card-box">
+          <p>{{delete_results}}</p>
+
+          <div class="m-t-20">
+            <button type="submit" style="margin: 5px;" class="btn btn-success">Okay</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

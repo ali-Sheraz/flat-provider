@@ -1,0 +1,377 @@
+
+
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+
+<div class="page-wrapper">
+  <div  class="chat-main-row">
+    <div class="col-xs-10">
+
+      <div class="row" *ngIf="showErrorMsg">
+        <div class="col-xs-12">
+          <p class="alert alert-success">
+            <strong>Error!</strong> {{TicketSubmitted}}
+          </p>
+        </div>
+      </div>
+
+      <div class="modal-header" style="padding: 20px;">
+        <h4 class="modal-title">{{add_new_work_orders_add_work_order}}</h4>
+      </div>
+      <div class="modal-body" style="padding: 20px;">
+        <form #addForm="ngForm" novalidate>
+          <div class="row">
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>{{add_new_work_orders_created_by}}<span class="text-danger m-l-5">*</span></label>
+                <input class="form-control" readonly type="text" [(ngModel)]="addT.created_by" name="created_by"
+                  #created_by="ngModel" required>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>{{add_new_work_orders_work_order_id}}<span class="text-danger m-l-5">*</span></label>
+                <input class="form-control" readonly type="text" [(ngModel)]="addT.id" name="id" #id="ngModel" required>
+              </div>
+            </div>
+            
+            
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>{{add_new_work_orders_property_developer}}<span class="text-danger m-l-5">*</span></label>
+                <input class="form-control" readonly type="text" [(ngModel)]="addT.property_developer" name="property_developer" #property_developer="ngModel" required>
+              </div>
+            </div>
+    
+            <div  class="col-md-6">
+              <div class="form-group">
+                <label>{{add_new_work_orders_property_developer}}<span class="text-danger m-l-5">*</span></label>
+                <select class="select form-control" [(ngModel)]="addT.property_developer" name="property_developer"
+                  #property_developer="ngModel" required>
+                  <option value=""></option>
+                  <option *ngFor="let propertyDevelopers of propertyDevelopers1">
+                      {{propertyDevelopers.pd_name}}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+
+
+         
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <!-- <div style="float: right;" *ngIf="locationload">
+                  <label>Loading...</label>
+                </div> -->
+                <label>{{add_new_work_orders_location}}<span class="text-danger m-l-5">*</span></label>
+                <select class="select form-control" [(ngModel)]="addT.location"
+                name="location" #location="ngModel" required>
+                  <option *ngFor="let locations of locations1">
+                    {{locations}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            
+
+         
+  
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>{{add_new_work_orders_floor}}<span class="text-danger m-l-5">*</span></label>
+                <select class="select form-control" [(ngModel)]="addT.floor" name="floor" #floor="ngModel" required>
+                  <option value="Ground floor">Ground floor</option>
+                  <option value="1st floor">1st floor</option>
+                  <option value="2nd floor">2nd floor</option>
+                  <option value="3rd floor">3rd floor</option>
+                  <option value="Basement">Basement</option>
+                </select>
+              </div>
+            </div>
+
+
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <!-- <div style="float: right;" *ngIf="elementload">
+                  <label>Loading...</label>
+                </div> -->
+                <label>{{add_new_work_orders_element}}<span class="text-danger m-l-5">*</span></label>
+                <select class="select form-control" [(ngModel)]="addT.element"
+                   name="element" #element="ngModel" required>
+                  <option value=""></option>
+                  <option *ngFor="let elements of elements">
+                    {{elements}}
+                  </option>
+                </select>
+              </div>
+            </div>
+      
+
+            
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>{{add_new_work_orders_costs}}</label>
+                <input class="form-control" type="text" [(ngModel)]="addT.costs" name="costs" #costs="ngModel">
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <!-- <div style="float: right;" *ngIf="defectLoad">
+                  <label>Loading...</label>
+                </div> -->
+                <label>{{add_new_work_orders_defect}}<span class="text-danger m-l-5">*</span></label>
+                <select class="select form-control" [(ngModel)]="addT.defect"
+                 name="defect" #defect="ngModel" required>
+                  <option value=""></option>
+                  <option *ngFor="let defects of defects">
+                    {{defects}}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>{{add_new_work_orders_invoice}}</label>
+                <input class="form-control" type="text" [(ngModel)]="addT.invoice" name="invoice" #invoice="ngModel">
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <!-- <div style="float: right;" *ngIf="competencyLoad">
+                  <label>Loading...</label>
+                </div> -->
+                <label>{{add_new_work_orders_competency}}<span class="text-danger m-l-5">*</span></label>
+                <select class="select form-control" [(ngModel)]="addT.subject"
+                  name="subject" #subject="ngModel" required>
+                  <option *ngFor="let competencys of competencys"  [selected]="competencys[competencys.length]">
+                    {{competencys}}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>{{add_new_work_orders_charge_to}}</label>
+                <select class="select form-control" [(ngModel)]="addT.charge_to" name="charge_to" #charge_to="ngModel">
+                  <option value="Client">Client</option>
+                  <option value="Contractor">Contractor</option>
+                  <option value="Resident">Resident</option>
+                  <option value="Others">Others</option>
+                </select>
+              </div>
+            </div>
+   
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>{{add_new_work_orders_days_to_execute}}<span class="text-danger m-l-5">*</span></label>
+                <select class="select form-control" 
+                  [(ngModel)]="addT.days_to_execute" name="days_to_execute" #days_to_execute="ngModel" required>
+                  <option *ngFor="let days_to_executes of days_to_executes" [value]="days_to_executes">
+                    {{days_to_executes}}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+        
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>{{add_new_work_orders_main_contractor}}<span class="text-danger m-l-5">*</span></label>
+                <select class="select form-control" [(ngModel)]="addT.main_contractor" name="main_contractor"
+                  #main_contractor="ngModel" required>
+                  <option *ngFor="let contractorsList of contractorsList"  [selected]="contractorsList[contractorsList.length]">
+                    {{contractorsList}}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <!-- <div style="float: right;" *ngIf="priorityLoad">
+                  <label>Loading...</label>
+                </div> -->
+                <label>{{add_new_work_orders_priority}}<span class="text-danger m-l-5">*</span></label>
+                <select class="select form-control" [(ngModel)]="addT.priority"
+                   name="priority" #priority="ngModel" required>
+                   <option *ngFor="let prioritys of prioritys"  [selected]="prioritys[prioritys.length]">
+                    {{prioritys}}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>{{add_new_work_orders_date_scheduled}}</label>
+                <input class="form-control" type="date" #date_scheduled='ngModel' name='date_scheduled'
+                  [(ngModel)]='addT.date_scheduled'>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <!-- <div style="float: right;" *ngIf="causeLoad">
+                  <label>Loading...</label>
+                </div> -->
+                <label>{{add_new_work_orders_cause}}<span class="text-danger m-l-5">*</span></label>
+                <select class="select form-control" [(ngModel)]="addT.cause" name="cause" #cause="ngModel" required>
+                  <option *ngFor="let causes of causes"  [selected]="causes[0]">
+                    {{causes}}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+
+            
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label class="control-label">{{add_new_work_orders_time_scheduled}}</label>
+                <select class="select form-control" [(ngModel)]="addT.time_scheduled" name="time_scheduled"
+                  #time_scheduled="ngModel">
+                  <option *ngFor="let timeList of timeList">
+                    {{timeList}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label class="control-label">{{add_new_work_orders_am_pm}}</label>
+                <select class="select form-control" [(ngModel)]="addT.ampm" name="ampm" #ampm="ngModel">
+                  <option value="AM">AM</option>
+                  <option value="PM">PM</option>
+                </select>
+              </div>
+            </div>
+
+
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <!-- <div style="float: right;" *ngIf="nextActionLoad">
+                  <label>Loading...</label>
+                </div> -->
+                <label>{{add_new_work_orders_next_action}}<span class="text-danger m-l-5">*</span></label>
+                <select class="select form-control" [(ngModel)]="addT.next_action" name="next_action"
+                  #next_action="ngModel" required>
+                  <option *ngFor="let nextActions of nextActions">
+                    {{nextActions.task}}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="control-label" >{{add_new_work_orders_store_work_title}}</label>
+                <select class="select floating form-control" [(ngModel)]="addT.store_work_title" name="store_work_title"
+                  #store_work_title="ngModel">
+                  <option value=""></option>
+                  <option *ngFor="let store_work_titleList of store_work_titleList">
+                    {{store_work_titleList.site_information_project_work_title}}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <input class="form-control" type="hidden" [(ngModel)]="addT.days_open" name="days_open"
+                  #days_open="ngModel">
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <input class="form-control" type="hidden" [(ngModel)]="addT.closed_by" name="closed_by"
+                  #closed_by="ngModel">
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <input class="form-control" type="hidden" [(ngModel)]="addT.approver_remarks" name="approver_remarks"
+                  #approver_remarks="ngModel">
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>{{add_new_work_orders_work_order_description}}<span class="text-danger m-l-5">*</span></label>
+                <textarea class="form-control" [(ngModel)]="addT.description" name="description" #description="ngModel"
+                  required></textarea>
+              </div>
+              <div class="form-group">
+                <label>{{add_new_work_orders_upload_pictures}}</label>
+                <input class="form-control" type="file" ng2FileSelect accept=".png, .jpeg"
+                 multiple />
+              </div>
+              <div class="form-group">
+                <label>{{add_new_work_orders_upload_documents_pdf_only}}</label>
+                <input class="form-control" type="file" ng2FileSelect accept=".pdf" 
+                  multiple />
+              </div>
+
+            </div>
+          </div>
+          
+          <div class="m-t-20 text-center">
+            <div *ngIf="addWorkOrderValidation" class="alert alert-info m-t-10">
+              <strong>Warning!</strong> Must Fill all Mandatory Fields.
+            </div>
+          </div>
+
+          <div class="row" *ngIf="showSuccessMsg">
+            <div class="col-xs-12">
+              <p class="alert alert-success">
+                <strong>Success!</strong> {{TicketSubmitted}}
+              </p>
+            </div>
+          </div>
+          <div class="m-t-20 text-center">
+            <button class="btn btn-primary" type="submit">{{add_new_work_orders_create_new_work_order}}</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div *ngIf="showloading" style="position: relative">
+    <span class="fraction" [ngStyle]="{'left': (progress - 1) + '%'}"
+      >{{fraction}}</span>
+  </div>
+  <mat-progress-bar *ngIf="showloading" mode="determinate" [value]="progress"></mat-progress-bar>
+  <span *ngIf="showloading" class="percentage" [ngStyle]="{'left': (progress - 1) + '%'}"
+    >Please Wait While we Load...{{progress}}%</span>
+</div> -->
+
+<!-- <div class="circle-wrap">
+  <div class="circle">
+    <div class="mask full">
+      <div class="fill"></div>
+    </div>
+    <div class="mask half">
+      <div class="fill"></div>
+    </div>
+    <div class="inside-circle"> {{progress}}% </div>
+  </div>
+</div> -->

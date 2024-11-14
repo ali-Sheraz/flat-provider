@@ -1,0 +1,999 @@
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+
+<div class="page-wrapper">
+  <div class="content container-fluid">
+    <div class="row">
+      <!-- <div class="row">
+        <div class="col-xs-12">
+          <p class="alert alert-success">
+            <strong>Uploading!</strong> {{Results}}
+          </p>
+        </div>
+      </div> -->
+      <!-- <div class="row" *ngIf="showSuccessMsg">
+        <div class="col-xs-12">
+          <p class="alert alert-success">
+            <strong>Success!</strong> {{PropertyAdded}}
+          </p>
+        </div>
+      </div> -->
+      <div>
+        <div class="col-xs-4">
+          <h4 class="page-title">{{title}}</h4>
+          <p>Total: {{totalList}}</p>
+        </div>
+        <div class="col-xs-8 text-right m-b-30" >
+          <a href="javascript:" class="btn btn-primary pull-right" (click)="addReset()"><i
+              class="fa fa-plus"></i>
+            {{properties_add_property}}</a>
+        </div>
+      </div>
+      <!-- <div class="row" *ngIf="scan">
+        <div class="col-xs-12">
+          <p class="alert alert-success">
+            <strong>Scan!</strong> {{scanResults}}
+          </p>
+        </div>
+      </div> -->
+    </div>
+
+    <div class="modal-body" style="margin-top: 20px;">
+      <form #searchForm="ngForm" novalidate>
+        <div class="row filter-row">
+
+          <div class="col-sm-3 col-md-2 col-xs-6">
+            <div class="form-group form-focus select-focus">
+              <label class="control-label">{{properties_property_id}}</label>
+              <input type="text" class="form-control floating" [(ngModel)]="searchT.id" name="id" #id="ngModel" />
+            </div>
+          </div>
+
+
+          <div class="col-sm-3 col-md-2 col-xs-6">
+            <div class="form-group form-focus select-focus">
+              <label class="control-label">{{properties_house_owner}}</label>
+              <input type="text" class="form-control floating" [(ngModel)]="searchT.house_owner" name="house_owner"
+                #house_owner="ngModel" />
+            </div>
+          </div>
+
+
+          <div class="col-sm-3 col-md-2 col-xs-6">
+            <div class="form-group form-focus select-focus">
+              <label class="control-label">{{properties_precinct}}</label>
+              <select class="select floating form-control" [(ngModel)]="searchT.precinct" name="precinct"
+                #street="ngModel">
+                <option value=""></option>
+                <option value="Downtown">Downtown</option>
+                <option value="Uptown">Uptown</option>
+
+              </select>
+            </div>
+          </div>
+
+          <div class="col-sm-3 col-md-2 col-xs-6">
+            <div class="form-group form-focus select-focus">
+              <label class="control-label">{{properties_street}}</label>
+              <select class="select floating form-control" [(ngModel)]="searchT.street" name="street" #street="ngModel">
+                <option value="street A">street A</option>
+                <option value="street B">street B</option>
+                <option value="street C">street C</option>
+
+              </select>
+            </div>
+          </div>
+
+          <div class="col-sm-3 col-md-2 col-xs-6">
+            <div class="form-group form-focus select-focus">
+              <label class="control-label">{{properties_house_number}}</label>
+              <select class="select floating form-control" [(ngModel)]="searchT.house_number" name="house_number"
+                #house_number="ngModel">
+                <option value="House A">House A</option>
+                <option value="House B">House B</option>
+                <option value="House C">House C</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-sm-3 col-md-2 col-xs-6">
+            <div class="form-group form-focus select-focus">
+              <label class="control-label">{{properties_main_contractor}}</label>
+              <select class="select form-control" [(ngModel)]="searchT.main_contractor" name="main_contractor"
+                #main_contractor="ngModel">
+                <option value="Contractor A">Contractor A</option>
+                <option value="Contractor B">Contractor B</option>
+                <option value="Contractor C">Contractor C</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-sm-3 col-md-2 col-xs-6">
+            <div class="form-group form-focus select-focus">
+              <label class="control-label">{{properties_type_of_unit}}</label>
+              <select class="select floating form-control" [(ngModel)]="searchT.type_of_unit" name="type_of_unit"
+                #type_of_unit="ngModel">
+                <option value="">All Types</option>
+                <option value="Single Storey Semi D">Single Storey Semi D</option>
+                <option value="Double Storey Semi D">Double Storey Semi D</option>
+                <option value="Bungalow Lot">Bungalow Lot</option>
+                <option value="Single Storey Terrace">Single Storey Terrace</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="wrapper">
+            <button class="btn btn-success pull-right">{{generals_clear_search}}</button>
+            <button class="btn btn-success pull-right" style="display:inline-block;margin-right:4px"
+              type="submit">{{generals_search}}</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table-responsive table-responsive-inherit">
+          <table class="table table-striped custom-table">
+            <thead>
+              <tr>
+                <th style="width: 20%">{{properties_property_id}}
+                </th>
+                <th style="width: 20%">
+                  {{properties_precinct}}
+                </th>
+                <th style="width: 20%">
+                  {{properties_street}}
+                </th>
+                <th style="width: 20%">
+                  {{properties_house_number}}
+                </th>
+                <th style="width: 20%">
+                  {{properties_house_owner}}
+                </th>
+                <th style="width: 10%">
+                  {{properties_type_of_unit}}
+                </th>
+                <th style="width: 10%">
+                  {{properties_contract_end_date}}
+                </th>
+                <th style="width: 10%" class="text-center">
+                  {{properties_type_of_contract}}
+                </th>
+                <th style="width: 10%">
+                  {{properties_main_contractor}}
+                </th>
+                <th style="width: 20%">
+                  {{generals_actions}}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of row">
+                <td>
+                  <h2 class="title-projects"><a data-toggle="modal"
+                      (click)="viewProfile()">{{item.id}}</a></h2>
+                </td>
+
+                <td>{{item.precinct}}</td>
+                <td>{{item.street}}</td>
+                <td>{{item.house_number}}</td>
+                <td>{{item.house_owner}}</td>
+                <td>{{item.type_of_unit}}</td>
+                <td>{{item.contract_end_date}}</td>
+                <td>{{item.type_of_contract}}</td>
+                <td>{{item.main_contractor}}</td>
+
+
+                <td class="text-right">
+                  <div class="dropdown">
+                    <a href="javascript:" class="action-icon dropdown-toggle" data-toggle="dropdown"
+                      aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                    <ul class="dropdown-menu pull-right">
+                      <li><a data-toggle="modal"  (click)="onedit()"><i class="fa fa-pencil m-r-5"></i>
+                          {{generals_edit}}</a></li>
+                      <li><a href="javascript:" (click)="onDelete(item);"title="Delete"><i class="fa fa-trash-o m-r-5" ></i>
+                          {{generals_delete}}</a></li>
+                      <li><a href="javascript:" title="Delete"><i class="fas fa-file-prescription"></i>
+                          Upload Documents</a></li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="12">
+
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div id="create_project" class="modal custom-modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <div class="modal-content modal-lg">
+        <div class="modal-header"style="padding: 20px;">
+          <h4 class="modal-title">{{properties_create_property}}</h4>
+        </div>
+
+        <div class="modal-body"style="padding: 20px;">
+          <form #addForm="ngForm"novalidate>
+            <div class="row">
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{properties_property_id}}<span class="text-danger m-l-5">*</span></label>
+                  <input class="form-control" readonly type="text" [(ngModel)]="addP.id" name="id" #id="ngModel"
+                    required>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{properties_address}}<span class="text-danger m-l-5">*</span></label>
+                  <input class="form-control" readonly type="text" [(ngModel)]="addP.address" name="address"
+                    #address="ngModel" required>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{properties_house_owner}}<span class="text-danger m-l-5">*</span></label>
+                  <select class="select form-control" [(ngModel)]="addP.house_owner" name="house_owner"
+                    #house_owner="ngModel" required>
+                    <option *ngFor="let residents of residents">
+                      {{residents}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{properties_construction_no}}</label>
+                  <input placeholder="" class="form-control" type="text" [(ngModel)]="addP.construction_no"
+                    name="construction_no" #construction_no="ngModel">
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>{{properties_house_number}}<span class="text-danger m-l-5">*</span></label>
+                  <input placeholder="" class="form-control" type="text" [(ngModel)]="addP.house_number"
+                    name="house_number" #house_number="ngModel" required>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>{{properties_street}}<span class="text-danger m-l-5">*</span></label>
+                  <input placeholder="" class="form-control" type="text" [(ngModel)]="addP.street" name="street"
+                    #street="ngModel" required>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{properties_type_of_unit}}<span class="text-danger m-l-5">*</span></label>
+                  <select class="select form-control" [(ngModel)]="addP.type_of_unit" name="type_of_unit"
+                    #type_of_unit="ngModel" required>
+                    <option value="Bungalow Lot">Bungalow Lot</option>
+                    <option value="Double Storey Semi D">Double Storey Semi D</option>
+                    <option value="Double Storey Terrace">Double Storey Terrace</option>
+                    <option value="Restaurant">Restaurant</option>
+                    <option value="Bungalow Lot">Shop Lot</option>
+                    <option value="Single Storey Semi D">Single Storey Semi D</option>
+                    <option value="Single Storey Terrace">Single Storey Terrace</option>
+                    <option value="Residential Unit">Residential Unit</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{properties_precinct}}<span class="text-danger m-l-5">*</span></label>
+                  <select class="select form-control" [(ngModel)]="addP.precinct" name="precinct" #precinct="ngModel"
+     required>
+                    <option value=""></option>
+                    <option value="PD Admin">PD Admin</option>
+                    <option value="PD Frontdesk">PD Frontdesk</option>
+                    <option value="PD Supervisor">PD Supervisor</option>
+                    <option value="PD Management">PD Management</option>
+                    <option value="CON Admin">CON Admin</option>
+                    <option value="CON Supervisor">CON Supervisor</option>
+                    <option value="CON Crew">CON Crew</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{properties_sub_precinct}}<span class="text-danger m-l-5">*</span></label>
+                  <select class="select form-control" [(ngModel)]="addP.sub_precinct" name="sub_precinct"
+                    #sub_precinct="ngModel" required>
+                    <option value=""></option>
+                    <option value="PD Admin">PD Admin</option>
+                    <option value="PD Frontdesk">PD Frontdesk</option>
+                    <option value="PD Supervisor">PD Supervisor</option>
+                    <option value="PD Management">PD Management</option>
+                    <option value="CON Admin">CON Admin</option>
+                    <option value="CON Supervisor">CON Supervisor</option>
+                    <option value="CON Crew">CON Crew</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{properties_township}}<span class="text-danger m-l-5">*</span></label>
+                  <input class="form-control" type="text" [(ngModel)]="addP.township" name="township"
+                    #township="ngModel" required>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{properties_city}}<span class="text-danger m-l-5">*</span></label>
+                  <input class="form-control" type="text" [(ngModel)]="addP.city" name="city" #city="ngModel" required>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{properties_postal_code}}<span class="text-danger m-l-5">*</span></label>
+                  <input class="form-control" type="text" [(ngModel)]="addP.postal_code" name="postal_code"
+                    #postal_code="ngModel" required>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label class="control-label">{{properties_state}}<span class="text-danger m-l-5">*</span></label>
+                  <select class="select form-control" [(ngModel)]="addP.state" name="state" #state="ngModel" required>
+                    <option *ngFor="let malaysiaStatesList of malaysiaStatesList">
+                      {{malaysiaStatesList}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label class="control-label">{{properties_country}}<span class="text-danger m-l-5">*</span></label>
+                  <select class="select form-control" [(ngModel)]="addP.country" name="country" #country="ngModel"
+                    required>
+                    <option *ngFor="let countryList of countryList">
+                      {{countryList}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{properties_property_developer}}<span class="text-danger m-l-5">*</span></label>
+                  <select class="select form-control" [(ngModel)]="addP.property_developer" name="property_developer"
+                    #property_developer="ngModel" required>
+                    <option value=""></option>
+                    <option *ngFor="let AllPd of AllPd">
+                        {{AllPd}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{properties_main_contractor}}<span class="text-danger m-l-5">*</span></label>
+                  <select class="select form-control" [(ngModel)]="addP.main_contractor" name="main_contractor"
+                    #main_contractor="ngModel" required>
+                    <option value="PD Admin">PD Admin</option>
+                <option value="PD Frontdesk">PD Frontdesk</option>
+                <option value="PD Supervisor">PD Supervisor</option>
+                <option value="PD Management">PD Management</option>
+                <option value="CON Admin">CON Admin</option>
+                <option value="CON Supervisor">CON Supervisor</option>
+                <option value="CON Crew">CON Crew</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{properties_latitude}}</label>
+                  <input placeholder="" class="form-control" type="text" [(ngModel)]="addP.latitude" name="latitude"
+                    #latitude="ngModel">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{properties_longitude}}</label>
+                  <input placeholder="" class="form-control" type="text" [(ngModel)]="addP.longitude" name="longitude"
+                    #longitude="ngModel">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{properties_type_of_contract}}<span class="text-danger m-l-5">*</span></label>
+                  <select class="select form-control" [(ngModel)]="addP.type_of_contract" name="type_of_contract"
+                    #type_of_contract="ngModel" required>
+                    <option value="DLP">DLP</option>
+                    <option value="No Contract">No Contract</option>
+                    <option value="Extended DLP">Extended DLP</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label class="control-label">{{properties_contract_start_date}}</label>
+                  <input type="date" class="form-control floating" [(ngModel)]="addP.contract_start_date"
+                    name="contract_start_date" #contract_start_date="ngModel" />
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label class="control-label">{{properties_contract_end_date}}</label>
+                  <input type="date" class="form-control floating" [(ngModel)]="addP.contract_end_date"
+                    name="contract_end_date" #contract_end_date="ngModel" />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Floorplan ID Property Unit</label>
+                  <input placeholder="" class="form-control" type="text" [(ngModel)]="addP.floor_plan_id" name="floor_plan_id"
+                    #floor_plan_id="ngModel">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Floorplan ID Precinct/Project</label>
+                  <input placeholder="" class="form-control" type="text" [(ngModel)]="addP.floor_plan_id_p" name="floor_plan_id_p"
+                    #floor_plan_id_p="ngModel">
+                </div>
+              </div>
+
+            </div>
+
+            <div class="form-group">
+              <label>{{properties_remarks}}<span class="text-danger m-l-5">*</span></label>
+              <textarea class="form-control" [(ngModel)]="addP.remarks" name="remarks" #remarks="ngModel"
+                required></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>{{properties_upload_floor_plans}}</label>
+              <input class="form-control" type="file" ng2FileSelect accept=".pdf"
+                 />
+            </div>
+            <div class="m-t-20 text-center">
+              <div *ngIf="addPropertyValidation" class="alert alert-info m-t-10">
+                <strong>Warning!</strong> Must Fill all Mandatory Fields.
+              </div>
+              <button class="btn btn-primary" type="submit">{{properties_create_property}}</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div id="edit_project" class="modal custom-modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <div class="modal-content modal-lg">
+        <div class="modal-header" style="padding: 20px;">
+          <h4 class="modal-title">{{properties_edit_property}}</h4>
+        </div>
+
+        <div class="modal-body"style="padding: 20px;">
+          <form #uptForm="ngForm"  novalidate>
+            <div class="row">
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{properties_property_id}}<span class="text-danger m-l-5">*</span></label>
+                  <input class="form-control" readonly type="text" [(ngModel)]="uptP.id" name="id" #id="ngModel"
+                    required>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{properties_address}}<span class="text-danger m-l-5">*</span></label>
+                  <input class="form-control" readonly type="text" [(ngModel)]="uptP.address" name="address"
+                    #address="ngModel" required>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{properties_house_owner}}<span class="text-danger m-l-5">*</span></label>
+                  <select class="select form-control" [(ngModel)]="uptP.house_owner" name="house_owner"
+                    #house_owner="ngModel" required>
+                    <option *ngFor="let residents of residents">
+                      {{residents}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{properties_construction_no}}</label>
+                  <input placeholder="" class="form-control" type="text" [(ngModel)]="uptP.construction_no"
+                    name="construction_no" #construction_no="ngModel">
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>{{properties_house_number}}<span class="text-danger m-l-5">*</span></label>
+                  <input placeholder="" class="form-control" type="text" [(ngModel)]="uptP.house_number"
+                    name="house_number" #house_number="ngModel" required>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>{{properties_street}}<span class="text-danger m-l-5">*</span></label>
+                  <input placeholder="" class="form-control" type="text" [(ngModel)]="uptP.street" name="street"
+                    #street="ngModel" required>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{properties_type_of_unit}}<span class="text-danger m-l-5">*</span></label>
+                  <select class="select form-control" [(ngModel)]="uptP.type_of_unit" name="type_of_unit"
+                    #type_of_unit="ngModel" required>
+                    <option value="Bungalow Lot">Bungalow Lot</option>
+                    <option value="Double Storey Semi D">Double Storey Semi D</option>
+                    <option value="Double Storey Terrace">Double Storey Terrace</option>
+                    <option value="Restaurant">Restaurant</option>
+                    <option value="Bungalow Lot">Shop Lot</option>
+                    <option value="Single Storey Semi D">Single Storey Semi D</option>
+                    <option value="Single Storey Terrace">Single Storey Terrace</option>
+                    <option value="Residential Unit">Residential Unit</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{properties_precinct}}<span class="text-danger m-l-5">*</span></label>
+                  <select class="select form-control" [(ngModel)]="uptP.precinct" name="precinct" #precinct="ngModel"
+                   required>
+                    <option value=""></option>
+                    <option value="Bungalow Lot">Bungalow Lot</option>
+                    <option value="Double Storey Semi D">Double Storey Semi D</option>
+                    <option value="Double Storey Terrace">Double Storey Terrace</option>
+                    <option value="Restaurant">Restaurant</option>
+                    <option value="Bungalow Lot">Shop Lot</option>
+                    <option value="Single Storey Semi D">Single Storey Semi D</option>
+                    <option value="Single Storey Terrace">Single Storey Terrace</option>
+                    <option value="Residential Unit">Residential Unit</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{properties_sub_precinct}}<span class="text-danger m-l-5">*</span></label>
+                  <select class="select form-control" [(ngModel)]="uptP.sub_precinct" name="sub_precinct"
+                    #sub_precinct="ngModel" required>
+                    <option value=""></option>
+                    <option value="Bungalow Lot">Bungalow Lot</option>
+                    <option value="Double Storey Semi D">Double Storey Semi D</option>
+                    <option value="Double Storey Terrace">Double Storey Terrace</option>
+                    <option value="Restaurant">Restaurant</option>
+                    <option value="Bungalow Lot">Shop Lot</option>
+                    <option value="Single Storey Semi D">Single Storey Semi D</option>
+                    <option value="Single Storey Terrace">Single Storey Terrace</option>
+                    <option value="Residential Unit">Residential Unit</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{properties_township}}<span class="text-danger m-l-5">*</span></label>
+                  <input class="form-control" type="text" [(ngModel)]="uptP.township" name="township"
+                    #township="ngModel" required>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{properties_city}}<span class="text-danger m-l-5">*</span></label>
+                  <input class="form-control" type="text" [(ngModel)]="uptP.city" name="city" #city="ngModel" required>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{properties_postal_code}}<span class="text-danger m-l-5">*</span></label>
+                  <input class="form-control" type="text" [(ngModel)]="uptP.postal_code" name="postal_code"
+                    #postal_code="ngModel" required>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label class="control-label">{{properties_state}}<span class="text-danger m-l-5">*</span></label>
+                  <select class="select form-control" [(ngModel)]="uptP.state" name="state" #state="ngModel" required>
+                    <option value="Bungalow Lot">Bungalow Lot</option>
+                    <option value="Double Storey Semi D">Double Storey Semi D</option>
+                    <option value="Double Storey Terrace">Double Storey Terrace</option>
+                    <option value="Restaurant">Restaurant</option>
+                    <option value="Bungalow Lot">Shop Lot</option>
+                    <option value="Single Storey Semi D">Single Storey Semi D</option>
+                    <option value="Single Storey Terrace">Single Storey Terrace</option>
+                    <option value="Residential Unit">Residential Unit</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label class="control-label">{{properties_country}}<span class="text-danger m-l-5">*</span></label>
+                  <select class="select form-control" [(ngModel)]="uptP.country" name="country" #country="ngModel"
+                    required>
+                    <option *ngFor="let countryList of countryList">
+                      {{countryList}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{properties_property_developer}}<span class="text-danger m-l-5">*</span></label>
+                  <select class="select form-control" [(ngModel)]="uptP.property_developer" name="property_developer"
+                    #property_developer="ngModel" required>
+                    <option value=""></option>
+                    <option *ngFor="let AllPd of AllPd">
+                        {{AllPd}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{properties_main_contractor}}<span class="text-danger m-l-5">*</span></label>
+                  <select class="select form-control" [(ngModel)]="uptP.main_contractor" name="main_contractor"
+                    #main_contractor="ngModel" required>
+                    <option value="Bungalow Lot">Bungalow Lot</option>
+                    <option value="Double Storey Semi D">Double Storey Semi D</option>
+                    <option value="Double Storey Terrace">Double Storey Terrace</option>
+                    <option value="Restaurant">Restaurant</option>
+                    <option value="Bungalow Lot">Shop Lot</option>
+                    <option value="Single Storey Semi D">Single Storey Semi D</option>
+                    <option value="Single Storey Terrace">Single Storey Terrace</option>
+                    <option value="Residential Unit">Residential Unit</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{properties_latitude}}</label>
+                  <input placeholder="" class="form-control" type="text" [(ngModel)]="uptP.latitude" name="latitude"
+                    #latitude="ngModel">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{properties_longitude}}</label>
+                  <input placeholder="" class="form-control" type="text" [(ngModel)]="uptP.longitude" name="longitude"
+                    #longitude="ngModel">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{properties_type_of_contract}}<span class="text-danger m-l-5">*</span></label>
+                  <select class="select form-control" [(ngModel)]="uptP.type_of_contract" name="type_of_contract"
+                    #type_of_contract="ngModel" required>
+                    <option value="DLP">DLP</option>
+                    <option value="No Contract">No Contract</option>
+                    <option value="Extended DLP">Extended DLP</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label class="control-label">{{properties_contract_start_date}}</label>
+                  <input type="date" class="form-control floating" [(ngModel)]="uptP.contract_start_date"
+                    name="contract_start_date" #contract_start_date="ngModel" />
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label class="control-label">{{properties_contract_end_date}}</label>
+                  <input type="date" class="form-control floating" [(ngModel)]="uptP.contract_end_date"
+                    name="contract_end_date" #contract_end_date="ngModel" />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Floorplan ID Property Unit</label>
+                  <input placeholder="" class="form-control" type="text" [(ngModel)]="uptP.floor_plan_id" name="floor_plan_id"
+                    #floor_plan_id="ngModel">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Floorplan ID Precinct/Project</label>
+                  <input placeholder="" class="form-control" type="text" [(ngModel)]="uptP.floor_plan_id_p" name="floor_plan_id_p"
+                    #floor_plan_id_p="ngModel">
+                </div>
+              </div>
+
+            </div>
+
+            <div class="form-group">
+              <label>{{properties_remarks}}<span class="text-danger m-l-5">*</span></label>
+              <textarea class="form-control" [(ngModel)]="uptP.remarks" name="remarks" #remarks="ngModel"
+                required></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>{{properties_upload_floor_plans}}</label>
+              <input class="form-control" type="file" ng2FileSelect accept=".pdf"
+                 />
+            </div>
+            
+            <div class="m-t-20 text-center">
+              <div *ngIf="addPropertyValidation" class="alert alert-info m-t-10">
+                <strong>Warning!</strong> Must Fill all Mandatory Fields.
+              </div>
+
+
+              <div class="row" *ngIf="showSuccessMsgUpdate">
+                <div class="col-xs-12">
+                  <p class="alert alert-success">
+                    <strong>Success!</strong> {{PropertyUpdated}}
+                  </p>
+                </div>
+              </div>
+
+              <div *ngIf="addPropertyValidation" class="alert alert-info m-t-10">
+                <strong>Warning!</strong> Must Fill all Mandatory Fields.
+              </div>
+
+              <button class="btn btn-primary" type="submit">{{properties_update_property}}</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div> 
+
+
+
+
+  <div id="delete" class="modal custom-modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content modal-md">
+        <div class="modal-header">
+          <h4 class="modal-title">Delete</h4>
+        </div>
+        <form (ngSubmit)="deleteConfirmation()">
+          <div class="modal-body card-box">
+            <p>Are you sure you want to DELETE this??</p>
+
+            <div class="m-t-20"> <a href="javascript:" class="btn btn-warning" data-dismiss="modal">No</a>
+              <button type="submit" style="margin: 5px;" class="btn btn-danger">Delete</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div id="delete_result" class="modal custom-modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content modal-md">
+        <div class="modal-header">
+          <h4 class="modal-title">Delete</h4>
+        </div>
+        <form (ngSubmit)="deleteResult()">
+          <div class="modal-body card-box">
+            <p>{{delete_results}}</p>
+
+            <div class="m-t-20">
+              <button type="submit" style="margin: 5px;" class="btn btn-success">Okay</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div id="view_project" class="modal custom-modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-xs-12">
+
+                <h4 class="page-title"><a data-dismiss="modal" style="cursor:pointer;">{{title}}</a> / {{viewP.id}}
+                  <div style="text-align:right;width:90%;margin-top:30px;margin-left:120px;">
+                    <button class="btn btn-primary" printSectionId="print_view_all_work_order" ngxPrint><i
+                        class="fa fa-print"></i> {{properties_print_qr_code}}</button>
+                    <a class="btn btn-primary rounded" style="display:inline-block;margin-left:10px"><i
+                        class="fa fa-plus"></i>
+                      Upload Documents</a>
+                    <a class="btn btn-primary rounded" style="display:inline-block;margin-left:10px;margin-top:inherit;"><i
+                        class="fa fa-plus"></i>
+                      Floor Plan Property Unit</a>
+                    <a class="btn btn-primary rounded" style="display:inline-block;margin-left:10px;margin-top:inherit;"><i
+                        class="fa fa-plus"></i>
+                      Floor Plan Precinct/Project</a>
+                    <a class="btn btn-primary rounded" style="display:inline-block;margin-top:20px"><img
+                        src="assets/img/documenation-white.png" height="20" alt="">
+                      View Additional Documents ({{totalListDocuments}})</a>
+                  </div>
+                </h4>
+              </div>
+
+              <div class="col-sm-4 text-right m-b-30">
+                <!-- <a class="btn btn-primary rounded" (click)="editView(viewP.projectID)"><i class="fa fa-plus"></i> Edit Project</a> -->
+              </div>
+            </div>
+            <div id="print_view_all_work_order">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="panel">
+                    <div class="panel-body">
+                      <div class="project-title">
+                        <h3 class="panel-title m-b-15"><b>{{viewP.house_owner}}</b></h3>
+                        <small class="block text-ellipsis m-b-15">
+                          <span class="text-xs"></span> <span class="text-muted"> {{viewP.type_of_contract}}</span>
+                        </small>
+                      </div>
+                      <p>{{viewP.remarks}}</p>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-6">
+                    <div class="panel">
+                      <div class="panel-body">
+                        <h3 class="panel-title m-b-15"><b>{{generals_view_details}}</b></h3>
+                        <table class="table table-striped table-border">
+                          <tbody>
+                            <tr>
+                              <td>{{properties_address}}:</td>
+                              <td class="text-right">{{viewP.address}}</td>
+                            </tr>
+                            <tr>
+                              <td>{{properties_house_number}}:</td>
+                              <td class="text-right">{{viewP.house_number}}</td>
+                            </tr>
+                            <tr>
+                              <td>{{properties_street}}:</td>
+                              <td class="text-right">{{viewP.street}}</td>
+                            </tr>
+                            <tr>
+                              <td>{{properties_type_of_unit}}:</td>
+                              <td class="text-right">{{viewP.type_of_unit}}</td>
+                            </tr>
+                            <tr>
+                              <td>{{properties_precinct}}:</td>
+                              <td class="text-right">{{viewP.precinct}}</td>
+                            </tr>
+                            <tr>
+                              <td>{{properties_sub_precinct}}:</td>
+                              <td class="text-right">{{viewP.sub_precinct}}</td>
+                            </tr>
+                            <tr>
+                              <td>{{properties_township}}:</td>
+                              <td class="text-right">{{viewP.township}}</td>
+                            </tr>
+                            <tr>
+                              <td>{{properties_city}}:</td>
+                              <td class="text-right">{{viewP.city}}</td>
+                            </tr>
+                            <tr>
+                              <td>{{properties_postal_code}}:</td>
+                              <td class="text-right">{{viewP.postal_code}}</td>
+                            </tr>
+                            <tr>
+                              <td>{{properties_country}}:</td>
+                              <td class="text-right">{{viewP.country}}</td>
+                            </tr>
+                            <tr>
+                              <td>{{properties_state}}:</td>
+                              <td class="text-right">{{viewP.state}}</td>
+                            </tr>
+                            <tr>
+                              <td>{{properties_property_developer}}:</td>
+                              <td class="text-right">{{viewP.property_developer}}</td>
+                            </tr>
+                            <tr>
+                              <td>{{properties_main_contractor}}:</td>
+                              <td class="text-right">{{viewP.main_contractor}}</td>
+                            </tr>
+                            <tr>
+                              <td>{{properties_construction_no}}:</td>
+                              <td class="text-right">{{viewP.construction_no}}</td>
+                            </tr>
+                            <tr>
+                              <td>{{properties_latitude}}:</td>
+                              <td class="text-right">{{viewP.latitude}}</td>
+                            </tr>
+                            <tr>
+                              <td>{{properties_longitude}}:</td>
+                              <td class="text-right">{{viewP.longitude}}</td>
+                            </tr>
+                            <tr>
+                              <td>{{properties_type_of_contract}}:</td>
+                              <td class="text-right">{{viewP.type_of_contract}}</td>
+                            </tr>
+                            <tr>
+                              <td>{{properties_contract_start_date}}:</td>
+                              <td class="text-right">{{viewP.contract_start_date}}</td>
+                            </tr>
+                            <tr>
+                              <td>{{properties_contract_end_date}}:</td>
+                              <td class="text-right">{{viewP.contract_end_date}}</td>
+                            </tr>
+                            <tr>
+                              <td>Floorplan ID Property Unit:</td>
+                              <td class="text-right">{{viewP.floor_plan_id}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class="panel">
+                    <div class="panel-body">
+                      <h5 class="panel-title m-b-20">QR Code</h5>
+
+                      <div class="panel">
+                        <div class="panel-body">
+                          <h5 class="panel-title m-b-20">{{generals_uploaded_files}}</h5>
+                          <ul class="files-list">
+                            <div class="files-cont">
+                              <div class="files-info">
+                                <span class="file-name text-ellipsis"> <span class="files-icon"><i
+                                      class="fa fa-file-pdf-o"></i> </span>
+                                  <a href="{{viewP.floor_plans}}" target="_blank"> <b> Floor Plan</b>
+                                  </a></span>
+                              </div>
+                            </div>
+                          </ul>
+                        </div>
+                      </div>
+
+                    </div>
+
+
+                  </div>
+                </div>
+
+
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+</div>
